@@ -1,0 +1,96 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nx}{erver}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{gql}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{require}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}apollo\PYGZhy{}server\PYGZdq{}}\PYG{p}{);}
+\PYG{n+nx}{ient}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{require}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}mongodb\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{ }\PYG{n+nx}{require}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}redis\PYGZdq{}}\PYG{p}{);}
+\PYG{n+nx}{quire}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}aws\PYGZhy{}sdk\PYGZsq{}}\PYG{p}{);}
+
+
+\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{require}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}./types\PYGZdq{}}\PYG{p}{);}
+\PYG{n+nx}{olver}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{require}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}./resolvers/query.js\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nx}{Resolver}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{require}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}./resolvers/mutation.js\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n+nx}{s}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{n+nx}{Resolver}\PYG{p}{.}\PYG{n+nx}{Query}\PYG{p}{,}
+\PYG{n+nx}{tationResolver}\PYG{p}{.}\PYG{n+nx}{Mutation}
+
+
+
+\PYG{n+nx}{ent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{redis}\PYG{p}{.}\PYG{n+nx}{createClient}\PYG{p}{(\PYGZob{}}
+
+\PYG{n+nx}{ess}\PYG{p}{.}\PYG{n+nx}{env}\PYG{p}{.}\PYG{n+nx}{REDIS\PYGZus{}HOST}\PYG{p}{,}
+\PYG{n+nx}{ess}\PYG{p}{.}\PYG{n+nx}{env}\PYG{p}{.}\PYG{n+nx}{REDIS\PYGZus{}PORT}\PYG{p}{,}
+
+
+\PYG{n+nx}{ocess}\PYG{p}{.}\PYG{n+nx}{env}\PYG{p}{.}\PYG{n+nx}{REDIS\PYGZus{}PASS}\PYG{p}{,}
+
+
+\PYG{c+c1}{client2 = new Client()}
+\PYG{c+c1}{2.open(\PYGZdq{}rdbesspruebapoc2.redis.cache.windows.net:6380,password=Jw0MAxql2HhF5trVmPhGzPA52bBOdOl05AzCaDJyh5U=,ssl=True,abortConnect=False\PYGZdq{})}
+\PYG{c+c1}{(redisclient2)}
+
+\PYG{n+nx}{disClient}\PYG{p}{)}
+
+\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}error\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{l+s+s1}{\PYGZsq{}Error redis \PYGZsq{}}\PYG{o}{+}\PYG{+w}{ }\PYG{n+nx}{err}\PYG{p}{)}
+
+
+\PYG{c+c1}{w AWS.S3(\PYGZob{}}
+\PYG{c+c1}{Id: \PYGZdq{}YiwdRzqjrGKbkUyL\PYGZdq{}, //`\PYGZdl{}\PYGZob{}process.env.S3\PYGZus{}ACCESS\PYGZus{}KEY\PYGZus{}ID\PYGZcb{}`,//\PYGZdq{}m1YTT0jkovQuulkV\PYGZdq{},//,//\PYGZdq{}m1YTT0jkovQuulkV\PYGZdq{},}
+\PYG{c+c1}{essKey: \PYGZdq{}4eCBiaKAV1c0Yn09Xrf159rQfZViNyyL\PYGZdq{},//`\PYGZdl{}\PYGZob{}process.env.S3\PYGZus{}SECRET\PYGZus{}ACCESS\PYGZus{}KEY\PYGZcb{}`,//,//\PYGZdq{}KbN1vw3ZxdXWr8cz7kSWprpwbcyvyN28\PYGZdq{},}
+\PYG{c+c1}{ \PYGZdq{}http://s3:9000\PYGZdq{}, //`\PYGZdl{}\PYGZob{}process.env.S3\PYGZus{}URL\PYGZcb{}`, //process.env.S3\PYGZus{}URL, //localhost 9000}
+\PYG{c+c1}{thStyle: true,}
+\PYG{c+c1}{Version: \PYGZdq{}v4\PYGZdq{}}
+
+
+\PYG{c+c1}{ject}
+
+
+\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{process}\PYG{p}{.}\PYG{n+nx}{env}\PYG{p}{.}\PYG{n+nx}{MONGO\PYGZus{}URL}\PYG{p}{;}
+\PYG{c+c1}{(mongourl)}
+\PYG{c+c1}{url = \PYGZdq{}mongodb://localhost:27017\PYGZdq{}}
+
+\PYG{n+nx}{console}\PYG{p}{.}\PYG{n+nx}{error}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}mongo url missing\PYGZdq{}}\PYG{p}{);}
+
+\PYG{n+nx}{connect}\PYG{p}{();}
+\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{MongoClient}\PYG{p}{(}\PYG{n+nx}{mongourl}\PYG{p}{);}
+
+\PYG{n+nx}{nect}\PYG{p}{().}\PYG{n+nx}{then}\PYG{p}{(()}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}mongo db connected\PYGZdq{}}\PYG{p}{);}
+\PYG{n+nx}{rver}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o+ow}{new}\PYG{+w}{ }\PYG{n+nx}{ApolloServer}\PYG{p}{(\PYGZob{}}
+\PYG{n+nx}{fs}\PYG{p}{,}\PYG{+w}{ }
+\PYG{n+nx}{ers}\PYG{p}{,}
+\PYG{n+nx}{pection}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{n+nx}{ound}\PYG{o}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{n+nx}{t}\PYG{o}{:}\PYG{+w}{ }\PYG{k}{async}\PYG{+w}{ }\PYG{p}{(\PYGZob{}}\PYG{n+nx}{req}\PYG{p}{\PYGZcb{})}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{c+c1}{ nombre Auth... tiene que estar calcado como llave del header}
+\PYG{k+kd}{t}\PYG{+w}{ }\PYG{n+nx}{token}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{req}\PYG{p}{.}\PYG{n+nx}{headers}\PYG{p}{.}\PYG{n+nx}{authorization}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{;}\PYG{+w}{ }
+
+\PYG{k+kd}{t}\PYG{+w}{ }\PYG{n+nx}{db}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nx}{client}\PYG{p}{.}\PYG{n+nx}{db}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}test\PYGZdq{}}\PYG{p}{);}
+\PYG{c+c1}{onst user = await db.collection(\PYGZdq{}users\PYGZdq{}).findOne(\PYGZob{}token\PYGZcb{}) //si no hay token correcto, token sera null}
+\PYG{c+c1}{eturn \PYGZob{}db: client.db(\PYGZdq{}test\PYGZdq{})\PYGZcb{}}
+
+\PYG{k+kd}{t}\PYG{+w}{ }\PYG{n+nx}{user}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{await}\PYG{+w}{ }\PYG{n+nx}{redisClient}\PYG{p}{.}\PYG{n+nx}{get}\PYG{p}{(}\PYG{n+nx}{token}\PYG{p}{);}
+\PYG{c+c1}{onsole.log(user)}
+
+\PYG{c+c1}{onsole.log(\PYGZdq{}hola?\PYGZdq{})}
+\PYG{c+c1}{wait redisClient.connect();}
+\PYG{c+c1}{onsole.log(\PYGZdq{}hola?\PYGZhy{}\PYGZhy{}\PYGZdq{})}
+\PYG{c+c1}{onst aaa=await redisClient.CLIENT\PYGZus{}INFO()}
+\PYG{c+c1}{onsole.log(aaa)}
+\PYG{c+c1}{wait redisClient.set(\PYGZdq{}eee\PYGZdq{},\PYGZdq{}kkkkkk\PYGZdq{})}
+\PYG{c+c1}{onst value = await redisClient.get(eee)}
+\PYG{c+c1}{onsole.log(value)}
+\PYG{c+c1}{onsole.log(\PYGZdq{}hola\PYGZdq{})}
+
+\PYG{k}{rn}\PYG{p}{\PYGZob{}}\PYG{n+nx}{db}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{user}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{token}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nx}{redisClient}\PYG{p}{\PYGZcb{};}
+
+
+\PYG{n+nx}{isten}\PYG{p}{().}\PYG{n+nx}{then}\PYG{p}{((\PYGZob{}}\PYG{n+nx}{url}\PYG{p}{\PYGZcb{})}\PYG{+w}{ }\PYG{p}{=\PYGZgt{}}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{n+nx}{e}\PYG{p}{.}\PYG{n+nx}{log}\PYG{p}{(}\PYG{l+s+sb}{`Server is listening at }\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nx}{url}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+sb}{`}\PYG{p}{);}
+
+
+
+\PYG{n+nx}{g}\PYG{p}{(}\PYG{n+nx}{e}\PYG{p}{)}
+
+
+\end{Verbatim}

@@ -1,0 +1,100 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+data \PYG{l+s+s2}{\PYGZdq{}azurerm\PYGZus{}redis\PYGZus{}cache\PYGZdq{}} \PYG{l+s+s2}{\PYGZdq{}redis\PYGZdq{}} \PYG{o}{\PYGZob{}}
+  \PYG{n+nv}{name} \PYG{o}{=} var.redis\PYGZus{}db\PYGZus{}name
+  \PYG{n+nv}{resource\PYGZus{}group\PYGZus{}name} \PYG{o}{=} var.resource\PYGZus{}group\PYGZus{}name
+\PYG{o}{\PYGZcb{}}
+
+data \PYG{l+s+s2}{\PYGZdq{}azurerm\PYGZus{}storage\PYGZus{}account\PYGZdq{}} \PYG{l+s+s2}{\PYGZdq{}sa\PYGZdq{}} \PYG{o}{\PYGZob{}}
+  \PYG{n+nv}{name} \PYG{o}{=} var.storage\PYGZus{}account\PYGZus{}name
+  \PYG{n+nv}{resource\PYGZus{}group\PYGZus{}name} \PYG{o}{=} var.resource\PYGZus{}group\PYGZus{}name
+\PYG{o}{\PYGZcb{}}
+
+data \PYG{l+s+s2}{\PYGZdq{}azurerm\PYGZus{}cosmosdb\PYGZus{}account\PYGZdq{}} \PYG{l+s+s2}{\PYGZdq{}db\PYGZus{}account\PYGZdq{}} \PYG{o}{\PYGZob{}}
+  \PYG{n+nv}{name} \PYG{o}{=} var.cosmos\PYGZus{}db\PYGZus{}account\PYGZus{}name
+  \PYG{n+nv}{resource\PYGZus{}group\PYGZus{}name} \PYG{o}{=} var.resource\PYGZus{}group\PYGZus{}name
+\PYG{o}{\PYGZcb{}}
+
+data \PYG{l+s+s2}{\PYGZdq{}azurerm\PYGZus{}container\PYGZus{}registry\PYGZdq{}} \PYG{l+s+s2}{\PYGZdq{}acr\PYGZdq{}} \PYG{o}{\PYGZob{}}
+  \PYG{n+nv}{name} \PYG{o}{=} var.acr\PYGZus{}name
+  \PYG{n+nv}{resource\PYGZus{}group\PYGZus{}name} \PYG{o}{=} var.resource\PYGZus{}group\PYGZus{}name
+\PYG{o}{\PYGZcb{}}
+
+resource \PYG{l+s+s2}{\PYGZdq{}azurerm\PYGZus{}container\PYGZus{}group\PYGZdq{}} \PYG{l+s+s2}{\PYGZdq{}aci\PYGZdq{}} \PYG{o}{\PYGZob{}}
+  \PYG{n+nv}{name} \PYG{o}{=} var.backend\PYGZus{}container\PYGZus{}group\PYGZus{}name
+  \PYG{n+nv}{resource\PYGZus{}group\PYGZus{}name} \PYG{o}{=} var.resource\PYGZus{}group\PYGZus{}name
+  \PYG{n+nv}{location} \PYG{o}{=} var.location
+  \PYG{n+nv}{ip\PYGZus{}address\PYGZus{}type} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Public\PYGZdq{}} \PYGZsh{}private y accesible por gateway?
+  \PYG{n+nv}{os\PYGZus{}type} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Linux\PYGZdq{}}
+
+  \PYG{n+nv}{exposed\PYGZus{}port} \PYG{o}{=} \PYG{o}{[}
+    \PYG{o}{\PYGZob{}}
+      \PYG{n+nv}{port} \PYG{o}{=} \PYG{l+m}{4000}
+      \PYG{n+nv}{protocol} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}TCP\PYGZdq{}}
+    \PYG{o}{\PYGZcb{}}
+  \PYG{o}{]}
+
+
+  \PYGZsh{} container \PYG{o}{\PYGZob{}}
+  \PYGZsh{}   \PYG{n+nv}{name} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}netdebug\PYGZdq{}}
+  \PYGZsh{}   \PYG{n+nv}{image} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}travelping/nettools\PYGZdq{}}
+  \PYGZsh{}   \PYG{n+nv}{cpu} \PYG{o}{=} \PYG{l+m}{0}.5
+  \PYGZsh{}   \PYG{n+nv}{memory} \PYG{o}{=} \PYG{l+m}{1}
+
+  \PYGZsh{}   \PYG{n+nv}{commands} \PYG{o}{=} \PYG{o}{[} \PYG{l+s+s2}{\PYGZdq{}sleep\PYGZdq{}}, \PYG{l+s+s2}{\PYGZdq{}10000\PYGZdq{}} \PYG{o}{]}
+  \PYGZsh{} \PYG{o}{\PYGZcb{}}
+  
+  container \PYG{o}{\PYGZob{}}
+    \PYG{n+nv}{name} \PYG{o}{=} var.backend\PYGZus{}container\PYGZus{}name
+    \PYG{n+nv}{image} \PYG{o}{=} var.backend\PYGZus{}image
+    \PYG{n+nv}{cpu} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}0.5\PYGZdq{}}
+    \PYG{n+nv}{memory} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}4\PYGZdq{}}
+    
+    \PYG{n+nv}{environment\PYGZus{}variables} \PYG{o}{=} \PYG{o}{\PYGZob{}}
+      \PYG{n+nv}{MONGO\PYGZus{}URL} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}mongodb://}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{data}\PYG{p}{.azurerm\PYGZus{}cosmosdb\PYGZus{}account.db\PYGZus{}account.name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{:}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{data}\PYG{p}{.azurerm\PYGZus{}cosmosdb\PYGZus{}account.db\PYGZus{}account.primary\PYGZus{}key}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{@}\PYG{l+s+si}{\PYGZdl{}\PYGZob{}}\PYG{n+nv}{data}\PYG{p}{.azurerm\PYGZus{}cosmosdb\PYGZus{}account.db\PYGZus{}account.name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.mongo.cosmos.azure.com:10255/?ssl=true\PYGZam{}replicaSet=globaldb\PYGZam{}retrywrites=false\PYGZam{}maxIdleTimeMS=120000\PYGZam{}appName=@cdaesspruebapoc2@\PYGZdq{}}
+      \PYG{n+nv}{REDIS\PYGZus{}HOST} \PYG{o}{=} data.azurerm\PYGZus{}redis\PYGZus{}cache.redis.hostname
+      \PYG{n+nv}{REDIS\PYGZus{}PORT} \PYG{o}{=} \PYG{l+m}{6380}
+      \PYG{n+nv}{REDIS\PYGZus{}PASS} \PYG{o}{=} data.azurerm\PYGZus{}redis\PYGZus{}cache.redis.primary\PYGZus{}access\PYGZus{}key
+      \PYG{n+nv}{STORAGE\PYGZus{}ACCOUNT\PYGZus{}NAME} \PYG{o}{=} data.azurerm\PYGZus{}storage\PYGZus{}account.sa.name
+      \PYG{n+nv}{STORAGE\PYGZus{}CONTAINER\PYGZus{}NAME} \PYG{o}{=} var.storage\PYGZus{}container\PYGZus{}name
+      \PYG{n+nv}{STORAGE\PYGZus{}ACCOUNT\PYGZus{}KEY} \PYG{o}{=} data.azurerm\PYGZus{}storage\PYGZus{}account.sa.primary\PYGZus{}access\PYGZus{}key
+    \PYG{o}{\PYGZcb{}}
+
+
+    ports \PYG{o}{\PYGZob{}}
+      \PYG{n+nv}{port} \PYG{o}{=} \PYG{l+m}{4000}
+      \PYG{n+nv}{protocol} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}TCP\PYGZdq{}}
+    \PYG{o}{\PYGZcb{}}
+
+    liveness\PYGZus{}probe \PYG{o}{\PYGZob{}}
+      http\PYGZus{}get \PYG{o}{\PYGZob{}}
+        \PYG{n+nv}{path} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}}
+        \PYG{n+nv}{port} \PYG{o}{=} \PYG{l+m}{4000}
+        \PYG{n+nv}{scheme} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Http\PYGZdq{}}
+      \PYG{o}{\PYGZcb{}}
+      \PYG{n+nv}{period\PYGZus{}seconds} \PYG{o}{=} \PYG{l+m}{60}
+      \PYG{n+nv}{failure\PYGZus{}threshold} \PYG{o}{=} \PYG{l+m}{20}
+      \PYG{n+nv}{timeout\PYGZus{}seconds} \PYG{o}{=} \PYG{l+m}{50}
+      \PYG{n+nv}{initial\PYGZus{}delay\PYGZus{}seconds} \PYG{o}{=} \PYG{l+m}{240}
+    \PYG{o}{\PYGZcb{}}
+
+    \PYGZsh{} readiness\PYGZus{}probe \PYG{o}{\PYGZob{}}
+    \PYGZsh{}   http\PYGZus{}get \PYG{o}{\PYGZob{}}
+    \PYGZsh{}     \PYG{n+nv}{path} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}}
+    \PYGZsh{}     \PYG{n+nv}{port} \PYG{o}{=} \PYG{l+m}{3000}
+    \PYGZsh{}     \PYG{n+nv}{scheme} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}Http\PYGZdq{}}
+    \PYGZsh{}   \PYG{o}{\PYGZcb{}}
+    \PYGZsh{}   \PYG{n+nv}{period\PYGZus{}seconds} \PYG{o}{=} \PYG{l+m}{60}
+    \PYGZsh{}   \PYG{n+nv}{failure\PYGZus{}threshold} \PYG{o}{=} \PYG{l+m}{20}
+    \PYGZsh{}   \PYG{n+nv}{timeout\PYGZus{}seconds} \PYG{o}{=} \PYG{l+m}{50}
+    \PYGZsh{}   \PYG{n+nv}{initial\PYGZus{}delay\PYGZus{}seconds} \PYG{o}{=} \PYG{l+m}{240} 
+    \PYGZsh{} \PYG{o}{\PYGZcb{}}
+  \PYG{o}{\PYGZcb{}}
+
+  image\PYGZus{}registry\PYGZus{}credential \PYG{o}{\PYGZob{}}
+    \PYG{n+nv}{username} \PYG{o}{=} data.azurerm\PYGZus{}container\PYGZus{}registry.acr.admin\PYGZus{}username
+    \PYG{n+nv}{password} \PYG{o}{=} data.azurerm\PYGZus{}container\PYGZus{}registry.acr.admin\PYGZus{}password
+    \PYG{n+nv}{server} \PYG{o}{=} data.azurerm\PYGZus{}container\PYGZus{}registry.acr.login\PYGZus{}server
+  \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+
+\end{Verbatim}

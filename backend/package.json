@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/storage-blob": "^12.12.0",
+    "apollo-server": "^3.7.0",
+    "apollo-server-redis": "^0.1.0-rc.11",
+    "aws-sdk": "^2.1243.0",
+    "graphql": "^16.5.0",
+    "graphql-upload": "^16.0.2",
+    "mongodb": "^4.6.0",
+    "nodemon": "^2.0.16",
+    "redis": "^4.3.1"
+  }
+}

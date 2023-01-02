@@ -1,0 +1,30 @@
+# stage1 - build react app first 
+# FROM node:12.16.1-alpine3.9 as build
+FROM node:16 AS builder
+WORKDIR /app
+# ENV PATH /app/node_modules/.bin:$PATH
+
+# COPY ./package.json /app/
+# COPY ./yarn.lock /app/
+# RUN yarn
+# COPY . /app
+# RUN yarn build
+# RUN npm install 
+COPY . ./
+
+# RUN npm ci
+RUN npm install
+RUN npm install react-scripts
+RUN npm run build
+
+
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+RUN rm -rf *
+COPY --from=builder /app/build .
+
+CMD [ "nginx", "-g", "daemon off;" ]
+
+
+# EXPOSE 3000
+# CMD ["npm", "start"]

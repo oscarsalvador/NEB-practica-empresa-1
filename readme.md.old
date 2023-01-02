@@ -1,0 +1,47 @@
+![](./documentacion/capturas/output.gif)
+# Como levantar
+El sistema esta compuesto por varios servicios, todos contenidos en el docker-compose. Necesitan ser levantados en un orden especifico.
+1. `docker-compose up traefik` levanta traefik, el proxy
+1. `docker-compose up mongo-db` 
+1. `docker-compose up redis`
+1. `docker-compose up s3`
+1. `docker-compose up api`
+  - `docker-compose up api-install`
+1. `docker-compose up front`
+  - `docker-compose up front-install`
+1. opcionalmente `docker-compose up mongo-express` 
+
+La primera vez que se monta el sistema hay que preparar las carpetas para mongo y el s3. Además, es necesario añadir varias direcciónes al resolvedor de nombres del sistema, en mi caso, /etc/hosts. Para instalar las dependencias de node del api y front, hay dos servicios. La primera vez es neceario correr estos antes
+
+
+## Traefik
+Para resolver los nombres y que el front no tenga problemas de cors con el api o s3 necesitan tener dominios distintos.
+```
+# Practica empresa I 2022
+127.0.0.1 front.local
+127.0.0.1 api.local
+127.0.0.1 s3.local
+```
+Traefik deberia encontrar los servicios automaticamente a medida que se levantan, segun los *labels* del docker-compose.
+
+
+## MinIO (s3)
+```
+mkdir -p s3-persistance/{data,shared}
+chmod 777 s3-persistance/{data,shared}
+```
+`ls -lah s3-persistance/*` para comprobar
+
+Con la configuracion del compose se deberia poder entrar al interfaz grafico, en `http://s3.local:8086`. Es neceasrio crear el bucket "statics" manualmente, y configurarlo como publico en lugar de privado. Los credenciales por defecto son minioadmin:minioadmin. 
+
+Adems del bucket, hay que crear una Service Account. Esta en el desplegable de identidad. No he conseguido hacer que el middle coja automaticamente los valores del docker-compose. Es necesario ponerlos dentro de la variable "s3" en *index.js*, en la linea 34.
+
+
+## Mongo
+`mkdir mongo`
+
+La primera vez que se monta el sistema, mongo debería montar las colecciónes "users" y "posts" por su cuenta, a medida que se usan. No siempre lo hace. Con mongo-express, el interfaz grafico, se puede entrar a `http://localhost:8081` (ver el compose) y crearlas manualmente. Si que se deberian poblar automaticamente con el uso.
+
+
+## Redis
+Tambien trae de serie un interfaz grafico, se puede acceder desde `http://localhost:8084`

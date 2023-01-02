@@ -1,0 +1,12 @@
+version: "3.6"
+
+services:
+  ansible:
+    image: ansible:1.0.1
+    volumes:
+      - .:/ansible
+    working_dir: /ansible
+    stdin_open: true # igual que docker run -i
+    tty: true # igual que docker run -t
+    # aun asi no vale con up
+    # docker-compose run --rm ansible bash
