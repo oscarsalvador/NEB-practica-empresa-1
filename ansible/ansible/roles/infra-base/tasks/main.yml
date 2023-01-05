@@ -1,0 +1,136 @@
+- include_vars:
+    file: '../vars/main.yml'
+  
+- name: az_cli
+  # shell: az account list
+  shell: |
+    az account set --subscription {{ subscription }}
+    az account show
+    # az account list
+  register: output
+
+- debug: var=output.stdout_lines
+
+- name: Create a resource group in azure
+  azure_rm_resourcegroup:
+    name: rg-gb-prueba-poc-3
+    location: '{{ location }}'
+    auth_source: cli
+  register: rg
+
+- debug:
+    var: rg
+
+- name: Create a virtual network
+  azure_rm_virtualnetwork:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ virtual_network_name }}'
+    location: '{{ location }}'
+    auth_source: cli
+    address_prefixes_cidr:
+      - '10.0.0.0/27'
+    auth_source: cli
+  register: vn
+
+- debug:
+    var: vn
+
+- name: Create a storage account with blob CORS
+  azure_rm_storageaccount:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ storage_account_name }}'
+    location: '{{ location }}'
+    type: Standard_LRS
+    auth_source: cli
+    blob_cors:
+    - allowed_origins:
+        - 'http://{{ frontend_container_group_name }}.{{ location }}.azurecontainer.io:3000'
+      allowed_methods:
+        - GET
+        - HEAD
+        - POST
+        - OPTIONS
+        - PUT
+      allowed_headers:
+        # - x-ms-meta-data*
+        # - x-ms-meta-target*
+        # - x-ms-meta-abc
+        - x-ms-blob-type
+        - access-control-allow-origin 
+        - vary
+      exposed_headers:
+        # - x-ms-meta-*
+        - x-ms-blob-type
+        - access-control-allow-origin 
+        - vary
+      max_age_in_seconds: 86400
+  register: sa
+
+- debug:
+    var: sa
+
+- name: Create a blob container
+  azure_rm_storageblob:
+    resource_group: '{{ resource_group_name }}'
+    container: '{{ storage_container_name }}'
+    storage_account_name: '{{ storage_account_name }}'
+    public_access: blob
+    auth_source: cli
+  register: sc
+
+- debug:
+    var: sc
+
+- name: Create an azure container registry
+  azure_rm_containerregistry:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ container_registry_name }}'
+    location: '{{ location }}'
+    admin_user_enabled: true
+    sku: Basic
+    auth_source: cli
+  register: cr
+
+- debug:
+    var: cr
+
+- name: Create Cosmos DB Account
+  azure_rm_cosmosdbaccount:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ cosmos_db_account_name }}'
+    location: '{{ location }}'
+    database_account_offer_type: Standard
+    kind: mongo_db
+    enable_automatic_failover: false
+    enable_multiple_write_locations: false
+    auth_source: cli
+
+    geo_rep_locations:
+      - name: '{{ location }}'
+        failover_priority: 0
+
+    consistency_policy:
+      default_consistency_level: bounded_staleness
+      max_staleness_prefix: 100000
+      max_interval_in_seconds: 300
+
+  register: db
+
+- debug:
+    var: db
+
+- name: Create an Azure Cache for Redis
+  azure_rm_rediscache:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ redis_db_name }}'
+    auth_source: cli
+
+    sku:
+        name: basic
+        size: C1
+
+  register: rdb
+  
+- debug:
+    var: rdb
+    

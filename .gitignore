@@ -14,6 +14,13 @@ frontend/miimg.png
 *.tfstate.*
 
 ansible/resources-azure
+ansible/pruebas
+ansible/terraform_ansible
+ansible/terraform_ansible/roles/terraform/vars/main.yml
+
+ansible/ansible/roles/infra-base/vars/main.yml
+ansible/ansible/roles/backend/vars/main.yml
+ansible/ansible/roles/frontend/vars/main.yml
 
 terraform/variables.tfvars
 frontend/terraform/variables.tfvars

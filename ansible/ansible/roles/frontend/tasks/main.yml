@@ -1,0 +1,65 @@
+- include_vars:
+    file: "../vars/main.yml"
+  
+- name: az_cli
+  # shell: az account list
+  shell: |
+    az account set --subscription {{ subscription }}
+    az account show
+    # az account list
+  register: output
+
+- debug: var=output.stdout_lines
+
+- name: Get instance of Registry
+  azure_rm_containerregistry_info:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ acr_name }}'
+    retrieve_credentials: true
+  register: acr
+  
+- debug:
+    msg: '{{ acr.registries[0].credentials.username }} {{ acr.registries[0].credentials.password }} {{ acr.registries[0].login_server }}'
+
+- name: Get specific Container Instance facts
+  azure_rm_containerinstance_info:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ backend_container_group_name }}'
+  register: acib
+
+- debug:
+    msg: '{{ acib.containerinstances[0].ip_address }}'
+
+- name: Create sample container group
+  azure_rm_containerinstance:
+    resource_group: '{{ resource_group_name }}'
+    name: '{{ frontend_container_group_name }}'
+    location: '{{ location }}'
+    ip_address: public
+    os_type: linux
+    dns_name_label: '{{ frontend_container_group_name }}'
+    
+    containers:
+      - name: '{{ frontend_image }}'
+        image: '{{ acr.registries[0].login_server }}/{{ frontend_image }}'
+        cpu: 0.5
+        memory: 4
+
+        environment_variables:
+          - name:  REACT_APP_API_URL 
+            is_secure: false
+            value: 'http://{{ acib.containerinstances[0].ip_address }}:4000'
+          - name:  REACT_APP_CORS_ORIGIN_TO_ALLOW 
+            is_secure: false
+            value: 'http://{{ frontend_container_group_name }}.{{ location }}.azurecontainer.io:3000'
+          
+        ports:
+          - 3000
+        
+    registry_username: '{{ acr.registries[0].credentials.username }}'
+    registry_password: '{{ acr.registries[0].credentials.password }}' 
+    registry_login_server: '{{ acr.registries[0].login_server }}'
+  register: acif
+
+- debug:
+    var: acif

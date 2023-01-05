@@ -1,0 +1,20 @@
+location:
+subscription:
+tenant:
+
+resource_group_name: 
+
+# storage account
+storage_account_name: 
+storage_container_name: 
+
+# acr
+acr_name: 
+
+# frontend
+frontend_container_group_name: 
+frontend_container_name: 
+frontend_image: 
+
+# backend
+backend_container_group_name: 

@@ -1,0 +1,23 @@
+- name: Aprovisionar componentes comunes
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: infra-base
+      tags: ['base']
+
+    - role: docker
+      tags: ['docker', 'backend']
+      vars:
+        targetmode: backend
+
+    - role: backend
+      tags: ['backend']
+
+    - role: docker
+      tags: ['docker', 'frontend']
+      vars:
+        targetmode: frontend
+
+    - role: frontend
+      tags: ['frontend']

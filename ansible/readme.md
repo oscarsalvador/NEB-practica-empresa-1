@@ -29,11 +29,20 @@ https://learn.microsoft.com/en-us/azure/developer/ansible/configure-in-docker-co
 
 > export AZURE_SUBSCRIPTION_ID=""
 
-ansible-galaxy collection install azure.azcollection
-pip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
-ansible-playbook resource-group.yml
+
+
 
 
 mkdir -p {inventory,roles/role1/{files,handlers,meta,tasks,templates,vars}}
 
 
+## buena
+RUN pacman -Syu --noconfirm ansible python-pip
+ansible-galaxy collection install azure.azcollection
+pip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
+
+ansible-playbook resource-group.yml
+
+for i in $(pip list -o | awk -F ' ' '{print $1}'|grep az); do pip install $i --force ; done
+
+instalacion de todas las dependencias a lo bestia por pip, con pip list del contenedor
