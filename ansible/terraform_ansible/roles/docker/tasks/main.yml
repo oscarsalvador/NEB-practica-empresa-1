@@ -1,6 +1,6 @@
 - include_vars:
     # file: "../vars/main.yml"
-    file: '{{"../../backend/vars/main.yml" if targetimage == "backend" else "../../frontend/vars/main.yml"}}'
+    file: '../vars/main.yml'
     
 - name: where am i
   # shell: az account list

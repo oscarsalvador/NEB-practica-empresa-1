@@ -1,0 +1,29 @@
+- name: Aprovisionar recursos del proyecto
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: terraform
+      tags: ['terraform', 'infra-base']
+      vars:
+        targetproject: terraform
+
+    - role: docker
+      tags: ['docker', 'backend']
+      vars:
+        targetimage: backend
+
+    - role: terraform
+      tags: ['terraform', 'backend']
+      vars:
+        targetproject: backend/terraform
+
+    - role: docker
+      tags: ['docker', 'frontend']
+      vars:
+        targetimage: frontend
+
+    - role: terraform
+      tags: ['terraform', 'frontend']
+      vars:
+        targetproject: frontend/terraform

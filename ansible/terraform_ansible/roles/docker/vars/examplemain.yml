@@ -1,0 +1,9 @@
+location: 
+subscription: 
+tenant: 
+
+# need to be the same as in the terraform proyect, not the other ansible playbooks
+resource_group_name: 
+acr_name: 
+backend_image: 
+frontend_image: 

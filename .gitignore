@@ -15,8 +15,9 @@ frontend/miimg.png
 
 ansible/resources-azure
 ansible/pruebas
-ansible/terraform_ansible
+ansible/parallel_ansible
 ansible/terraform_ansible/roles/terraform/vars/main.yml
+ansible/terraform_ansible/roles/docker/vars/main.yml
 
 ansible/ansible/roles/infra-base/vars/main.yml
 ansible/ansible/roles/backend/vars/main.yml
