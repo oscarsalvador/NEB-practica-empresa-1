@@ -10,30 +10,15 @@ variable "tenant_id" {
   description = "Account tenant"
 }
 
-# variable "whitelisted_ip" {
-#   description = "IP(s) allowed to access services"
-# }
-
 # Names
 variable "resource_group_name" {
   description = "Under which all elements will be created"
 }
-# variable "virtual_network_name" {
-#   description = "Within which elements will be accessible"
-# }
-# variable "container_registry_name" {
-#   description = "Registry to which images will be uploaded"
-# }
+
 
 # acr 
 variable "acr_user" {
   description = "Username to access registry"
-}
-variable "acr_password" {
-  description = "Password to access registry"
-}
-variable "acr_server" {
-  description = "Login server of registry"
 }
 
 # frontend

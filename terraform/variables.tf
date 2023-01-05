@@ -7,9 +7,9 @@ variable "subscription_id" {
 variable "tenant_id" {
   description = "Account tenant"
 }
-variable "whitelisted_ip" {
-  description = "IP(s) allowed to access services"
-}
+# variable "whitelisted_ip" {
+#   description = "IP(s) allowed to access services"
+# }
 
 
 variable "resource_group_name" {

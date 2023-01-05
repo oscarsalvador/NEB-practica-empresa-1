@@ -1,9 +1,8 @@
-# project = ""
 location = ""
 subscription_id = ""
 tenant_id = ""
 
-whitelisted_ip = [""]
+# whitelisted_ip = [""]
 
 # Names
 resource_group_name = ""
