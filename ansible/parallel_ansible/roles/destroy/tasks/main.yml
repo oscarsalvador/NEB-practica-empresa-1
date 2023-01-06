@@ -1,0 +1,39 @@
+- include_vars:
+    file: '../vars/main.yml'
+
+- name: az_cli
+  # shell: az account list
+  shell: |
+    az account set --subscription {{ subscription }}
+    az account show
+    # az account list
+  register: output
+
+- debug: var=output.stdout_lines
+
+- name: Check if destroy is enabled
+  shell: |
+    echo "destroy_all value: {{ destroy_all }}"
+  register: output
+  when: destroy_all == "true"
+
+- debug:
+    msg: '{{ output }}'
+
+
+- name: Destroy a resource group and all it's contents in azure
+  azure_rm_resourcegroup:
+    name: '{{ resource_group_name }}'
+    location: '{{ location }}'
+    force_delete_nonempty: yes
+    state: absent
+    auth_source: cli
+  # when: destroy_all is defined
+  when: destroy_all == "true"
+  register: rg
+
+- debug:
+    var: rg
+
+# By default won't, even if the role is not skipped with tags. To destroy, override the variable "destroy_all":
+# ansible-playbook site.yml --tags "destroy" -e "destroy_all=true"

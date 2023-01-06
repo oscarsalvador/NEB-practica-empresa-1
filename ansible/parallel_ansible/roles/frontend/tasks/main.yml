@@ -17,18 +17,34 @@
     name: '{{ acr_name }}'
     retrieve_credentials: true
   register: acr
-  
-- debug:
-    msg: '{{ acr.registries[0].credentials.username }} {{ acr.registries[0].credentials.password }} {{ acr.registries[0].login_server }}'
+  async: 1000
+  poll: 0
 
 - name: Get specific Container Instance facts
   azure_rm_containerinstance_info:
     resource_group: '{{ resource_group_name }}'
     name: '{{ backend_container_group_name }}'
   register: acib
+  async: 1000
+  poll: 0
 
+- name: Wait for gets
+  async_status:
+    jid: '{{ item }}'
+  register: wait
+  until: wait.finished
+  retries: 10
+  with_items: 
+    - '{{ acr.ansible_job_id }}'
+    - '{{ acib.ansible_job_id }}'
+
+# - debug:
+#     var: wait.results
 - debug:
-    msg: '{{ acib.containerinstances[0].ip_address }}'
+    msg: '{{ wait.results[0].registries[0].credentials.username }} {{ wait.results[0].registries[0].credentials.password }} {{ wait.results[0].registries[0].login_server }}'
+- debug:
+    msg: '{{ wait.results[1].containerinstances[0].ip_address }}'
+
 
 - name: Create frontend container group
   azure_rm_containerinstance:
@@ -41,14 +57,14 @@
     
     containers:
       - name: '{{ frontend_image }}'
-        image: '{{ acr.registries[0].login_server }}/{{ frontend_image }}'
+        image: '{{ wait.results[0].registries[0].login_server }}/{{ frontend_image }}'
         cpu: 0.5
         memory: 4
 
         environment_variables:
           - name:  REACT_APP_API_URL 
             is_secure: false
-            value: 'http://{{ acib.containerinstances[0].ip_address }}:4000'
+            value: 'http://{{ wait.results[1].containerinstances[0].ip_address }}:4000'
           - name:  REACT_APP_CORS_ORIGIN_TO_ALLOW 
             is_secure: false
             value: 'http://{{ frontend_container_group_name }}.{{ location }}.azurecontainer.io:3000'
@@ -56,9 +72,9 @@
         ports:
           - 3000
         
-    registry_username: '{{ acr.registries[0].credentials.username }}'
-    registry_password: '{{ acr.registries[0].credentials.password }}' 
-    registry_login_server: '{{ acr.registries[0].login_server }}'
+    registry_username: '{{ wait.results[0].registries[0].credentials.username }}'
+    registry_password: '{{ wait.results[0].registries[0].credentials.password }}' 
+    registry_login_server: '{{ wait.results[0].registries[0].login_server }}'
   register: acif
 
 - debug:

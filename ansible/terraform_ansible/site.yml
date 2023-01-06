@@ -1,4 +1,4 @@
-- name: Aprovisionar recursos del proyecto
+- name: Provision the project's resources and build docker images
   hosts: localhost
   connection: local
   gather_facts: no

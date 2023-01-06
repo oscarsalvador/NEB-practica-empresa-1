@@ -1,0 +1,7 @@
+location:
+subscription:
+tenant:
+
+resource_group_name: 
+
+destroy_all: false # by default, make it necessary for the user to override it

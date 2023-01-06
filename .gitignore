@@ -15,13 +15,19 @@ frontend/miimg.png
 
 ansible/resources-azure
 ansible/pruebas
-ansible/parallel_ansible
+
 ansible/terraform_ansible/roles/terraform/vars/main.yml
 ansible/terraform_ansible/roles/docker/vars/main.yml
 
 ansible/ansible/roles/infra-base/vars/main.yml
 ansible/ansible/roles/backend/vars/main.yml
 ansible/ansible/roles/frontend/vars/main.yml
+
+ansible/parallel_ansible/roles/infra-base/vars/main.yml
+ansible/parallel_ansible/roles/backend/vars/main.yml
+ansible/parallel_ansible/roles/frontend/vars/main.yml
+ansible/parallel_ansible/roles/docker/vars/main.yml
+ansible/parallel_ansible/roles/destroy/vars/main.yml
 
 terraform/variables.tfvars
 frontend/terraform/variables.tfvars

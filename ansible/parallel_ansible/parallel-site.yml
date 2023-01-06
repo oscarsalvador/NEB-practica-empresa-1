@@ -1,0 +1,39 @@
+- name: Provision the base project's resources 
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: destroy
+      tags: ['destroy']
+
+    - role: infra-base
+      tags: ['base']
+
+
+- name: Build docker images in parallel
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  strategy: free
+  roles:
+    - role: docker
+      tags: ['docker', 'backend']
+      vars:
+        targetimage: backend
+
+    - role: docker-simple
+      tags: ['docker', 'frontend']
+      vars:
+        targetimage: frontend
+
+
+- name: Aprovisionar recursos de las instancias de contenedores
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: backend
+      tags: ['backend']
+
+    - role: frontend
+      tags: ['frontend']

@@ -3,6 +3,9 @@
   connection: local
   gather_facts: no
   roles:
+    - role: destroy
+      tags: ['destroy']
+
     - role: infra-base
       tags: ['base']
 

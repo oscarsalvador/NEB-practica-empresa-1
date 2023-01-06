@@ -65,21 +65,11 @@
         - vary
       max_age_in_seconds: 86400
   register: sa
+  async: 2000
+  poll: 0 # fire and forget
 
-- debug:
+- debug: 
     var: sa
-
-- name: Create a blob container
-  azure_rm_storageblob:
-    resource_group: '{{ resource_group_name }}'
-    container: '{{ storage_container_name }}'
-    storage_account_name: '{{ storage_account_name }}'
-    public_access: blob
-    auth_source: cli
-  register: sc
-
-- debug:
-    var: sc
 
 - name: Create an azure container registry
   azure_rm_containerregistry:
@@ -89,10 +79,12 @@
     admin_user_enabled: true
     sku: Basic
     auth_source: cli
-  register: cr
+  register: acr
+  async: 2000
+  poll: 0
 
 - debug:
-    var: cr
+    var: acr
 
 - name: Create Cosmos DB Account
   azure_rm_cosmosdbaccount:
@@ -111,10 +103,12 @@
 
     consistency_policy:
       default_consistency_level: bounded_staleness
-      max_staleness_prefix: 100000
+      max_staleness_prefix: 200000
       max_interval_in_seconds: 300
 
   register: db
+  async: 2000
+  poll: 0
 
 - debug:
     var: db
@@ -130,7 +124,53 @@
         size: C1
 
   register: rdb
+  async: 2000
+  poll: 0
   
 - debug:
     var: rdb
     
+
+- name: Wait for storage account
+  async_status:
+    jid: '{{ item }}'
+  register: wait
+  until: wait.finished
+  retries: 10
+  delay: 10 # delay between retries
+  with_items: 
+    - '{{ sa.ansible_job_id }}'
+
+# - debug:
+#     var: sa
+# - debug: 
+#     var: wait
+
+- name: Create a blob container
+  azure_rm_storageblob:
+    resource_group: '{{ resource_group_name }}'
+    container: '{{ storage_container_name }}'
+    storage_account_name: '{{ storage_account_name }}'
+    public_access: blob
+    auth_source: cli
+  register: sc
+
+- debug:
+    var: sc
+
+
+# need to wait, or ansible will immediately exit while they are still being built
+- name: Wait for Registry, CosmosDB and Redis 
+  async_status:
+    jid: '{{ item }}'
+  register: wait
+  until: wait.finished
+  retries: 100
+  delay: 30 # delay between retries
+  with_items: 
+    - '{{ acr.ansible_job_id }}'
+    - '{{ db.ansible_job_id }}'
+    - '{{ rdb.ansible_job_id }}'
+
+# - debug:
+#     var: wait
