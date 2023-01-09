@@ -21,7 +21,7 @@
       vars:
         targetimage: backend
 
-    - role: docker-simple
+    - role: docker
       tags: ['docker', 'frontend']
       vars:
         targetimage: frontend

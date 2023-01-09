@@ -37,6 +37,7 @@ backend/terraform/variables.tfvars
 # # **!examplevariables.tfvars
 # **.tfvars
 
+documentacion/latex/_minted-.memoria3.tex
 
 /build
 dist
