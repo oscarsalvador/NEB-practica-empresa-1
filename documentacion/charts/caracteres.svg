@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="104mm" height="66mm" viewBox="0 0 10400 6600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke-width="28.222" stroke-linejoin="round" xml:space="preserve">
+ <path fill="rgb(255,255,255)" stroke="none" d="M 5162,6568 L -13,6568 -13,-13 10336,-13 10336,6568 5162,6568 Z"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 6523,5790 L 3382,5790 3382,118 9664,118 9664,5790 6523,5790 Z"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3382,116 L 3382,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 4638,116 L 4638,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 5894,116 L 5894,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 7150,116 L 7150,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 8407,116 L 8407,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 9664,116 L 9664,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,5789 L 3382,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,5789 L 3382,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,3898 L 3382,3898"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,3898 L 3382,3898"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,2007 L 3382,2007"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,2007 L 3382,2007"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,116 L 3382,116"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3232,116 L 3382,116"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3382,5789 L 3382,116"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3382,5939 L 3382,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3382,5939 L 3382,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 4638,5939 L 4638,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 4638,5939 L 4638,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 5894,5939 L 5894,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 5894,5939 L 5894,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 7150,5939 L 7150,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 7150,5939 L 7150,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 8407,5939 L 8407,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 8407,5939 L 8407,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 9664,5939 L 9664,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 9664,5939 L 9664,5789"/>
+ <path fill="none" stroke="rgb(179,179,179)" stroke-linejoin="round" d="M 3382,5789 L 9664,5789"/>
+ <path fill="rgb(0,69,134)" stroke="none" d="M 3382,1535 L 3382,589 8957,589 8957,1535 3382,1535 Z"/>
+ <path fill="rgb(0,69,134)" stroke="none" d="M 3382,3425 L 3382,2480 5670,2480 5670,3425 3382,3425 Z"/>
+ <path fill="rgb(0,69,134)" stroke="none" d="M 3382,5316 L 3382,4370 8437,4370 8437,5316 3382,5316 Z"/>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="1650" y="4964"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Terraform</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="195" y="3073"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Ansible Secuencial</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="645" y="1182"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Ansible Paralelo</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="2919" y="6357"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">12500</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="4175" y="6357"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">13000</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="5432" y="6357"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">13500</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="6688" y="6357"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">14000</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="7945" y="6357"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">14500</tspan></tspan></tspan></text>
+ <text class="SVGTextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="353px" font-weight="400"><tspan class="TextPosition" x="9202" y="6357"><tspan fill="rgb(0,0,0)" stroke="none" style="white-space: pre">15000</tspan></tspan></tspan></text>
+</svg>
