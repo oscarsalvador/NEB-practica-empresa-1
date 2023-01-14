@@ -1,17 +1,142 @@
-\usepackage{glossaries}
+\newacronym{aws}{AWS}{Amazon Web Services}
+\newacronym{s3}{S3}{Simple Storage Solution}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{url}{URL}{Uniform Resource Locator}
+\newacronym{npm}{NPM}{Node Package Manager}
+\newacronym{rest}{REST}{REpresentational State Transfer}
+\newacronym{saas}{SaaS}{Software as a Service}
+\newacronym{bbdd}{BBDD}{Bases de Datos}
+\newacronym{sspl}{SSPL}{Server-Side Public Licence}
+\newacronym{mpl}{MPL}{Mozilla Public Licence}
+\newacronym{gpl}{GPL}{General Public Licence}
+\newacronym{agpl}{AGPL}{Affero General Public Licence}
+\newacronym{aks}{AKS}{Azure Kubernetes Service}
+\newacronym{aci}{ACI}{Azure Container Instance}
+\newacronym{aca}{ACA}{Azure Container Apps}
+\newacronym{fqdn}{FQDN}{Fully Qualified Domain Name}
+\newacronym{cors}{CORS}{Cross-Origin Resource Sharing}
+\newacronym{cli}{CLI}{Command Line Interface}
+\newacronym{tui}{TUI}{Terminal User Interface}
+\newacronym{iac}{IaC}{Infrastructure as Code}
+\newacronym{crud}{CRUD}{Create Read Update Destroy}
+\newacronym{tls}{TLS}{Transport Layer Security}
+\newacronym{json}{JSON}{JavaScript Object Notation}
+\newacronym{hcl}{HCL}{Hashicorp Configuration Language}
+\newacronym{ip}{IP}{Internet Protocol}
+\newacronym{cicd}{CI/CD}{Continuous Integration and Continuous Deployment}
+\newacronym{yaml}{YAML}{YAML Ain't Markup Language}
+\newacronym{pr}{PR}{Pull Request}
+\newacronym{ssh}{SSH}{Secure SHell}
+\newacronym{arm}{ARM}{Azure Resource Manager}
+\newacronym{cdk}{CDK}{Cloud Development Kit}
+\newacronym{https}{HTTPS}{HyperText Transfer Protocol Secure}
+\newacronym{acr}{ACR}{Azure Container Registry}
 
-\makeglossaries
-
-
-\newglossaryentry{maths}
-{
-    name=mathematics,
-    description={Mathematics is what mathematicians do}
+\newglossaryentry{azure}{
+    name={Azure},
+    description={La plataforma cloud de Microsoft}
 }
-
-definir primero las palabras, luego el acronimo, luego explicar
-
-agruparlos por tema, url con fqdn, aws con cosmos, licencias con licencias
-	conseguido con orden estandar y poniendo nombres que las relacionen
-		creo que no posible, el nombre tengo que poderlo usar en texto
-leccion aprendida: diagramas bonitos despes de montar las cosas
+\newglossaryentry{frontend}{
+    name={Frontend},
+    description={Servidor de archivos con los que un navegador puede renderizar una página web}
+}
+\newglossaryentry{cliente}{
+    name={Cliente},
+    description={Proceso que se conecta a un servidor, en el caso de una página web, el código de la página que corre en navegador del usuario}
+}
+\newglossaryentry{middleware}{
+    name={Middleware},
+    description={Servidor entre frontend y bases de datos}
+}
+\newglossaryentry{backend}{
+    name={Backend},
+    description={Servidor final, con la lógica de negocio. En esta practica, intercambiable con middleware}
+}
+\newglossaryentry{bucket}{
+    name={Bucket},
+    description={Unidad de almacenamiento en AWS}
+}
+\newglossaryentry{blob}{
+    name={Blob},
+    description={Unidad de almacenamiento en los contenedores de almacenamiento de Azure}
+}
+\newglossaryentry{url_prefirmada}{
+    name={URL pre-firmada},
+    description={URL con credenciales de uso limitado incluidos, para distribución}
+}
+\newglossaryentry{http_get}{
+    name={HTTP GET},
+    description={Método de HTTP en el que se pide un recurso}
+}
+\newglossaryentry{http_put}{
+    name={HTTP PUT},
+    description={Método de HTTP en el que se pide crear un recurso. Es idempotente}
+}
+\newglossaryentry{http_post}{
+    name={HTTP POST},
+    description={Método de HTTP en el que se pide subir datos. No es idempotente}
+}
+\newglossaryentry{token}{
+    name={Token},
+    description={También conocido como identificador de sesión, es una cadena de caracteres con la que seguir a un usuario, y darle acceso sin que tenga que enviar su contraseña repetidas veces}
+}
+\newglossaryentry{traefik}{
+    name={Traefik},
+    description={Proxy inverso de última generación, descubre servicios por su cuenta}
+}
+\newglossaryentry{reverse_proxy}{
+    name={Reverse-Proxy},
+    description={Proxy dentro del firewall, en particular usado por recursos dentro de la organización para acceder a otros también dentro. En mi caso, el valor es presentar una única dirección, saltándome el problema de CORS}
+}
+\newglossaryentry{wildcard}{
+    name={Wildcard},
+    description={Valor que representa una equivalencia a cualquier valor}
+}
+\newglossaryentry{infra}{
+    name={Infraestructura},
+    description={Conjunto de componentes hardware y software sobre los que se apoya una aplicación}
+}
+\newglossaryentry{mongodb}{
+    name={MongoDB},
+    description={Base de datos no-SQL documental}
+}
+\newglossaryentry{redis}{
+    name={Redis},
+    description={Base de datos llave-valor solo guardad en memoria. Rápida pero no persistente, para tokens}
+}
+\newglossaryentry{fullstack}{
+    name={Fullstack},
+    description={Conjunto de todos los sistemas, frontend, backend y bases de datos}
+}
+\newglossaryentry{docker}{
+    name={Docker},
+    description={Software de virtualización por contenedores}
+}
+\newglossaryentry{graphql}{
+    name={GraphQL},
+    description={Graph Query Language, alternativa a REST, propuesta por Facebook}
+}
+\newglossaryentry{onprem}{
+    name={On-Prem},
+    description={``On-Premises'', Infraestructura en las premisas de la empresa, que no es contratada a terceros}
+}
+\newglossaryentry{wrapper}{
+    name={Wrapper},
+    description={Capa de abstracción sobre una herramienta, con la traducción literal ``envoltorio''}
+}
+\newglossaryentry{cloud}{
+    name={Cloud},
+    description={Un servicio o plataforma contratado como servicio, el ordenador de un tercero}
+}
+\newglossaryentry{pipeline}{
+    name={Pipeline},
+    description={Conjunto de procesos automatizados, normalmente en un repositorio o entorno cloud, que se aplican después de ser disparados por eventos como un commit a dicho repo}
+}
+\newglossaryentry{overhead}{
+    name={Overhead},
+    description={Coste añadido incurrido por procesos de gestión o supervisión}
+}
+\newglossaryentry{localhost}{
+    name={Localhost},
+    description={El nombre de host estándar para la mísma máquina}
+}

@@ -29,7 +29,6 @@
     auth_source: cli
     address_prefixes_cidr:
       - '10.0.0.0/27'
-    auth_source: cli
   register: vn
 
 - debug:
