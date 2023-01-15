@@ -20,6 +20,7 @@
 	\usepackage{minted}
 %		\usemintedstyle{autumn}
 		%\usemintedstyle{autumn}
+        
         \usemintedstyle{manni}
         %\usemintedstyle{trac}
 		
@@ -146,6 +147,7 @@
 \clearpage
 \listoffigures
 
+\vspace{1cm}
 %%% usar "tabla" en lugar de "cuadro", el default de babel
 \renewcommand{\listtablename}{Índice de tablas}
 \renewcommand{\tablename}{Tabla} 
@@ -209,9 +211,9 @@ Después de explicar cómo funciona cada una y ponerlas en uso, compararé sus c
 				\begin{enumerate}
 					%\addtolength{\itemindent}{0.80cm}
 					\itemsep0em 
-					\item Servidor de estáticos del frontend.
+					\item Servidor de estáticos de la página, \textit{\gls{frontend}}.
 					\item Servidor de contenido, con imágenes que se usen, y se puedan subir y borrar desde el \textit{\gls{cliente}}.
-					\item Middleware de una sola capa, \textit{\acrshort{api}} con \textit{\gls{graphql}}.
+					\item \textit{\gls{middleware}} de una sola capa, \textit{\gls{backend}}, con \textit{\acrshort{api}} \textit{\gls{graphql}}.
 						\begin{itemize}
 							%\addtolength{\itemindent}{0.80cm}
 							\itemsep0em 
@@ -230,13 +232,13 @@ Después de explicar cómo funciona cada una y ponerlas en uso, compararé sus c
 		\begin{enumerate}
 			%\addtolength{\itemindent}{0.80cm}
 			\itemsep0em 
-			\item Programación de componentes lógicos (\textit{\gls{frontend}}, \textit{\gls{middleware}}) en local, usando \textit{\gls{docker}} para prototipar e iterar rápido.
+			\item Programación de componentes lógicos frontend y backend en local, usando \textit{\gls{docker}} para prototipar e iterar rápido.
 			\item Creación manual de los recursos y migración a la nube, depurando la integración para un entorno de producción.
 			\item Descripción del diseño de la infraestructura como código con ambas herramientas.
             \item Elaboración de la memoria, explicando las tecnologías usadas y comparando las herramientas IaC.
 		\end{enumerate}
 
-    Completé la primera fase, y la parte de la cuarta acorde, a tiempo de la entrega parcial. Esto dejó las dos siguientes y el grueso de la cuarta para la entrega final.
+    Completé la primera fase, y la parte de la cuarta correspondiente, a tiempo de la entrega parcial. Esto dejó las dos siguientes y el grueso de la cuarta para la entrega final.
     
 
 
@@ -280,7 +282,7 @@ Desde la primera entrega he cambiado mi objetivo de proveedor de Amazon Web Serv
 
 
 \clearpage
-Compuesto por un proxy inverso (\textit{\gls{traefik}}), almacenamiento S3, servidores Frontend y \textit{\gls{backend}}, Redis y Mongo, el sistema presentaba la siguiente forma. Cabe resaltar que el frontend está mostrado como parte del \textit{\gls{bucket}} porque planee almacenar su código compilado ahí, y que el propio servidor  ``statics'' sirviese las imágenes y estos fuentes (también técnicamente estáticos). Este no es el caso en la versión actual.
+Compuesto por un proxy inverso (\textit{\gls{traefik}}), almacenamiento S3, servidores frontend y backend, Redis y Mongo, el sistema presentaba la siguiente forma. Cabe resaltar que el frontend está mostrado como parte del \textit{\gls{bucket}} porque planee almacenar su código compilado ahí, y que el propio servidor  ``statics'' sirviese las imágenes y estos fuentes (también técnicamente estáticos). Este no es el caso en la versión actual.
 
 	\begin{figure}[htb]
 		\centering
@@ -469,7 +471,7 @@ Las necesidades de las piezas principales de la aplicación han dictado la infra
         \vspace{-.6cm}
         \inputminted[fontsize=\scriptsize, firstline=126, lastline=126, linenos, frame=single, breaklines]{javascript}{../../backend/src/resolvers/mutation.js}
         \end{subfigure}
-        \caption{Comando de arranque del servidor, \texttt{Dockerfile} (O. Salvador, 2022)}
+        \caption{Extracto de eliminación de imágenes, backend, \texttt{mutation.js} (O. Salvador, 2022)}
     \end{figure}
 
 	\bigskip
@@ -520,7 +522,7 @@ Uso una mezcla heterogénea de servicios de Azure para satisfacer las necesidade
 
 	\clearpage
 	\subsection{Bases de datos}
-	El sistema necesita dos \textit{\acrshort{bbdd}}: una documental para almacenar los \textit{posts} y usuarios de forma persistente; y una llave-valor para almacenar impermanentemente las parejas token-usuario. Originalmente diseñe el sistema en local, ambas suplidas por contenedores, con las imágenes oficiales \texttt{mongo:latest} y \texttt{redis/redis-stack:latest}. Las dos permiten su uso en local, para desarrollo, sin autenticación. Este no es el caso en producción, en Azure ambas necesitan credenciales para poder acceder, detallare la implementación de estos en la siguiente sección.
+	El sistema necesita dos \textit{\acrshort{bbdd}}: una documental para almacenar los \textit{posts} y usuarios de forma persistente; y una llave-valor para almacenar impermanentemente las parejas token-usuario. Originalmente diseñe el sistema en local, ambas suplidas por contenedores, con las imágenes oficiales \texttt{mongo:latest} y \texttt{redis/redis-stack:latest}. Las dos permiten su uso en local, para desarrollo, sin autenticación. Este no es el caso en producción, en Azure ambas necesitan credenciales para poder acceder, detallaré la implementación de estos en la siguiente sección.
 	\linebreak
 	
 	Desde el 16 de Octubre, 2018, MongoDB Inc. ha publicado las nuevas versiones de su software bajo la licencia \textit{\acrshort{sspl}} (\textit{Server Side Public Licence}) (\cite{mongo_sspl}). Esta es una licencia de código libre, que permite la copia y distribución, basada en \textit{\acrshort{agpl}v3}, pero con el requisito añadido de que cualquier proveedor cloud que ofrezca la funcionalidad del software con esta licencia debe publicar la totalidad de \underline{su} código fuente. Esto incluye software, APIs y cualquier otro componente necesario para replicar la solución del proveedor. 
@@ -529,7 +531,7 @@ Uso una mezcla heterogénea de servicios de Azure para satisfacer las necesidade
 	Como resultado de este cambio, plataformas cloud como la ofrecida por Microsoft pasaron a ofrecer alternativas compatibles con MongoDB, pero resultado de un desarrollo independiente. En el caso de Azure, su solución de base de datos es CosmosDB, y tiene un modo de uso compatible con aplicaciones diseñadas para Mongo. 
 	\linebreak
 	
-	En mi experiencia durante este proyecto, los desarrolladores de esta alternativa han conseguido un éxito completo. La integración de mi aplicación con esta solución fue admirablemente trivial. Solo tuve que cambiar la URL de mi cliente por un \textit{Connection String} a la nueva. En esta cadena de caracteres van incluidos los credenciales. El backend la recibe como variable de entorno, por lo que no tuve siquiera que tocar su código.
+	En mi experiencia durante este proyecto, los desarrolladores de esta alternativa han conseguido un éxito completo. La integración de mi aplicación con esta solución fue admirablemente trivial. Solo tuve que cambiar la URL del cliente por un \textit{Connection String} a la nueva. En esta cadena de caracteres van incluidos los credenciales. El backend la recibe como variable de entorno, por lo que no tuve siquiera que tocar su código.
 	\linebreak
 	
 		\begin{figure}[htb]
@@ -650,7 +652,7 @@ Uso una mezcla heterogénea de servicios de Azure para satisfacer las necesidade
 			\caption{\texttt{Dockerfile} del frontend}
 			\end{subfigure}
 
-			\caption{Comandos de arranque de los servidores contenedor-izados (O. Salvador, 2022)}
+			\caption{Comandos de arranque de los servidores contenedorizados (O. Salvador, 2022)}
 		\end{figure}
 
 	\clearpage
@@ -759,7 +761,7 @@ Uso una mezcla heterogénea de servicios de Azure para satisfacer las necesidade
 		\end{figure}
 
 	\clearpage
-	La depuración de la configuración de CORS (\textit{Cross-Origin Resource Sharing}) ha sido la parte más difícil del proyecto pese a su simpleza. Al principio no configuraba  \textit{Allowed} y \textit{Exposed headers}, que resultó ser la solución (\cite{cors_almacen}). Cuando no lo hacía y no funcionaba saque la conclusión errónea que se ve en las siguientes imágenes\footnote{Todas las imágenes están disponibles en el repositorio, en \texttt{documentacion/capturas}, para poderlas leer mejor. En particular, el apartado e), que he cortado para poderlo leer, es la imagen \texttt{azure\_cors\_firefox\_error.png}}, que se podía usar el FQDN sin protocolo ni puerto. También muestran la dificultad de depurar, cuando todo parece estar en orden.
+	La depuración de la configuración de CORS (\textit{Cross-Origin Resource Sharing}) ha sido la parte más difícil del proyecto pese a su simpleza. Al principio no configuraba  \textit{Allowed} y \textit{Exposed headers}, que resultó ser la solución (\cite{cors_almacen}). Cuando no lo hacía y no funcionaba, saqué la conclusión errónea que se ve en las siguientes imágenes\footnote{Todas las imágenes están disponibles en el repositorio, en \texttt{documentacion/capturas}, para poderlas leer mejor. En particular, el apartado e), que he cortado para poderlo leer, es la imagen \texttt{azure\_cors\_firefox\_error.png}}, que se podía usar el FQDN sin protocolo ni puerto. También muestran la dificultad de depurar, cuando todo parece estar en orden.
 	\linebreak
 
 		\begin{figure}[htb]
@@ -865,16 +867,16 @@ La extensión de la mayoría de los archivos HCL en un proyecto de Terraform es 
 		El primer comando, \texttt{terraform init}: descarga los proveedores que se hayan indicado, crea algunos archivos para su operación y carga un estado remoto si se le indica. En Terraform, el estado es una captura en local de los detalles de la implementación de la infraestructura como estaban en la plataforma objetivo la última vez que se actualizó. 
 		\linebreak
 		
-		Este fichero es necesario para que Terraform funcione. ``El propósito principal del estado de Terraform es almacenar los enlaces entre los objetos en un sistema remoto y las instancias de recursos declarados en su configuración'' (\cite{hashicorp_state}). Se guardan los identificadores y propiedades de los recursos en el archivo \texttt{terraform.tfstate}, en formato JSON. Se pueden ver sus contenidos en cualquier momento con el comando \texttt{terraform show} Adicionalmente se genera una copia de seguridad, \texttt{terraform.tfstate.backup}, automáticamente. Contiene información comprometedora, como credenciales. Es importante manejarlo de forma segura. Adicionalmente, el estado se puede usar remotamente, para facilitar el desarrollo colaborativo y el uso en pipelines de \textit{\acrshort{cicd}}. 
+		Este fichero es necesario para que Terraform funcione. ``El propósito principal del estado de Terraform es almacenar los enlaces entre los objetos en un sistema remoto y las instancias de recursos declarados en su configuración'' (\cite{hashicorp_state}). Se guardan los identificadores y propiedades de los recursos en el archivo \texttt{terraform.tfstate}, en formato JSON. Se pueden ver sus contenidos en cualquier momento con el comando \texttt{terraform show}. Adicionalmente se genera una copia de seguridad, \texttt{terraform.tfstate.backup}, automáticamente. Contiene información comprometedora, como credenciales. Es importante manejarlo de forma segura. Adicionalmente, el estado se puede usar remotamente, para facilitar el desarrollo colaborativo y el uso en pipelines de \textit{\acrshort{cicd}}. 
 		\linebreak
 		
 		Con el comando \texttt{terraform import} se puede crear o actualizar el estado del proyecto en la plataforma cloud u \textit{\gls{onprem}}. Si el proyecto ya tiene los fuentes con los nombres de los recursos, también es capaz de poblarlos con su configuración de la plataforma (\cite{hashicorp_import}).
 		\linebreak
 		
-		En el tercero, \texttt{terraform plan}, se convierten los archivos de configuraciones a un conjunto de pasos que Terraform puede seguir para alcanzar dicho estado deseado. Ejecutarlo automáticamente lanzará el segundo, \texttt{terraform validate}, que comprueba si los fuentes describen una configuración valida. Si lo es, resuelve las variables. Recorre \texttt{variables.tf} y las puebla con \texttt{variables.tfvars}. Se puede especificar un fichero de variables con \texttt{-var-file variables.tfvars} Si hay más en el \texttt{.tfvars} de las que se usan, Terraform avisará de ello. Si hay menos, y no tienen valor predeterminado son pedidas al usuario por \textit{\acrshort{tui}}. El usuario puede sobrescribir las variables del fichero, para una ejecución, de dos maneras. Puede incluir la opcion \texttt{-var nombre=``valor''}, o exportar variables de sistema con el nombre de esta y el prefijo \texttt{TF\_VAR}. Por ejemplo, para la variable ``\texttt{rg\_name}'', exportar en la misma consola la variable ``\texttt{TF\_VAR\_rg\_name}''.
+		En el tercero, \texttt{terraform plan}, se convierten los archivos de configuraciones a un conjunto de pasos que Terraform puede seguir para alcanzar dicho estado deseado. Ejecutarlo automáticamente lanzará el segundo, \texttt{terraform validate}, que comprueba si los fuentes describen una configuración válida. Si lo es, resuelve las variables. Recorre \texttt{variables.tf} y las puebla con \texttt{variables.tfvars}. Se puede especificar un fichero de variables con ``\texttt{-var-file variables.tfvars}''. Si hay más en el \texttt{.tfvars} de las que se usan, Terraform avisará de ello. Si hay menos, y no tienen valor predeterminado son pedidas al usuario por \textit{\acrshort{tui}}. El usuario puede sobrescribir las variables del fichero, para una ejecución, de dos maneras. Puede incluir la opcion ``\texttt{-var nombre=``valor''}'', o exportar variables de sistema con el nombre de esta y el prefijo \texttt{TF\_VAR}. Por ejemplo, para la variable ``\texttt{rg\_name}'', exportar en la misma consola la variable ``\texttt{TF\_VAR\_rg\_name}''.
 		\linebreak
 		
-		Lo siguiente que hace es recuperar el estado actual de cualquier objeto que ya este creado en la plataforma (\cite{hashicorp_plan}, \cite{hashicorp_plan_refresh}). Con la configuración previa actualizada, calcula las diferencias frente a la propuesta. El último paso para generar un plan es calcular un grafo de dependencias. Terraform hace esto recorriéndose los fuentes, viendo los recursos mencionados, y añadiendo un nodo por cada uno. Las parejas de ``\texttt{<BLOCK LABEL>}'' indican dependencia del segundo al primero, los bloques que estén definidos dentro de otros a su padre, y los bloques que usen el campo \texttt{depends\_on} al que mencionen (\cite{hashicorp_graph}). Después de añadir los nodos al grafo con las dependencias adecuadas, etiqueta a cada uno con metadatos basándose en las diferencias entre el estado y la configuración, para saber que operaciones tomar con cada nodo. 
+		Lo siguiente que hace es recuperar el estado actual de cualquier objeto que ya este creado en la plataforma (\cite{hashicorp_plan}, \cite{hashicorp_plan_refresh}). Con la configuración previa actualizada, calcula las diferencias frente a la propuesta. El último paso para generar un plan es calcular un grafo de dependencias. Terraform hace esto recorriéndose los archivos fuente, viendo los recursos mencionados, y añadiendo un nodo por cada uno. Las parejas de ``\texttt{<BLOCK LABEL>}'' indican dependencia del segundo al primero, los bloques que estén definidos dentro de otros a su padre, y los bloques que usen el campo \texttt{depends\_on} al que mencionen (\cite{hashicorp_graph}). Después de añadir los nodos al grafo con las dependencias adecuadas, etiqueta a cada uno con metadatos basándose en las diferencias entre el estado y la configuración, para saber que operaciones tomar con cada nodo. 
 		\linebreak
 		
 		El grafo se puede generar independientemente con \texttt{terraform graph} en cualquier momento, solo para visualizar. El resultado del comando es el texto del grafo, en formato DOT. A continuación muestro un extracto del proyecto más sencillo, el frontend (detalles en la siguiente sección), es solo una parte para no dedicarle una página\footnote{He generado los diagramas completos para todos los proyectos, en el Anexo \ref{anexo:grafico} detallo como generarlos. Están en la carpeta \texttt{documentacion/terraform-graph}}. 
@@ -1504,7 +1506,7 @@ Ansible usa \textit{colecciones} para agrupar y distribuir más fácilmente esto
 Esto no ha sido un uso exhaustivo de las herramientas, ambas tienen funcionalidades a las que no he encontrado el uso en este proyecto, o que superaban su ámbito, como filtros de datos en Ansible, las soluciones de plantillas o los test de ambos. Pero sí que han sido unas aproximaciones suficientemente detalladas como para sacar conclusiones. 
 \linebreak
 
-Antes de comparar sus diferencias recorreré sus puntos en común. El primero es un mito sobre la infraestructura como código, que no cumplen. He oído a gente mencionar que la infraestructura descrita con estas herramientas se puede migrar de una plataforma a otra. Esto \underline{no} es así, las dos utilizan identificadores y nombres para los recursos que hacen la implementación específica a la plataforma para la que se haga. 
+Antes de comparar sus diferencias recorreré sus puntos en común. El primero es un mito sobre la infraestructura como código, que no cumplen. He oído mencionar que la infraestructura descrita con estas herramientas se puede migrar de una plataforma a otra. Esto \underline{no} es así, las dos utilizan identificadores y nombres para los recursos que hacen la implementación específica a la plataforma para la que se haga. 
 \linebreak
 
 Los propios recursos no siempre tienen una traducción directa entre servicios cloud. Por ejemplo, el almacenamiento de objetos en AWS y Azure es similar en propósito, pero su funcionamiento, opciones y por tanto declaraciones IaC son muy diferentes. Dos diferencias son: el contenedor de almacenamiento de Azure necesitando pertenecer a una cuenta, y el S3 pudiendo ser usado como servidor para estáticos de una página web. 
@@ -1516,22 +1518,22 @@ Es difícil que estas dos herramientas, u otras similares, ofrezcan una adaptaci
 La documentación está estandarizada para todas las colecciones de Ansible y proveedores de Terraform, lo que hará rápido encontrar el recurso equivalente y volver a desarrollar su código. Gracias a la abstracción y naturaleza declarativa, los componentes de distintas plataformas compartirán muchos campos, pero estos tienen que ser revisados uno a uno, no copiados ciegamente.
 \linebreak
 
-Como resultado de esta facilidad, asumo, se ha popularizado la idea de que se haga \textit{casi} automáticamente entre los que conocen su existencia, pero no han usado las herramientas. Otra causa posible es confusión alrededor de lo que un proyecto \textit{multicloud} significa. Ansible y Terraform pueden desplegar recursos de distintas plataformas en un mismo proyecto, sin dificultades adicionales a uno normal. Una vez más, esto no significa una compatibilidad automática de las configuraciones entre ellas.
+Como resultado de esta facilidad, asumo, se ha popularizado la idea de que se haga \textit{casi} automáticamente entre los que conocen su existencia, pero no han usado las herramientas. Otra causa posible es confusión alrededor de lo que un proyecto \textit{multicloud} significa. Ansible y Terraform pueden desplegar recursos de distintas plataformas en un mismo proyecto, sin dificultades adicionales a uno con componentes en solo una. Una vez más, esto no significa una compatibilidad automática de las configuraciones entre ellas.
 
 
 
 \clearpage
-Las similitudes principales que han quedado evidentes durante este proyecto y expuestas en la memoria hasta ahora son:
+Las similitudes principales que han quedado evidentes durante este proyecto y expuestas en la memoria, hasta ahora son:
 \skip
         \begin{itemize}
 			\itemsep0em 
-			\item Usan \textit{\gls{wrapper}s}, abstracciones para hacer peticiones al API de Azure, igual que su cliente CLI, sus plantillas \textit{\acrshort{arm}} o el \textit{\acrshort{cdk}} de AWS para este. En Terraform se distribuyen como un único binario que se descarga solo al inicializar el proyecto. Por el contrario, Ansible distribuye dos por cada tipo de recurso, uno con el que trabajar contra él, y otro con el que recuperar su información, y los junta todos en colecciones. La instalación de estas puede ser complicada, como he mencionado, tuve problemas con las dependencias de la colección de Azure.
+			\item Usan \textit{\gls{wrapper}s}, abstracciones para hacer peticiones al API de Azure, igual que su cliente CLI, sus plantillas \textit{\acrshort{arm}} o el \textit{\acrshort{cdk}} de AWS para este. En Terraform se distribuyen como un único binario que se descarga solo al inicializar el proyecto. Por el contrario, Ansible distribuye dos por cada tipo de recurso, uno con el que trabajar contra él, y otro con el que recuperar su información, y los junta todos en colecciones. La instalación de estas puede ser complicada. Como he mencionado, tuve problemas con las dependencias de la colección de Azure.
             \linebreak
             
 			\item La sintaxis es muy similar, la pareja siendo declarativas. Indicas lo que quieres, no el cómo conseguirlo, y las herramientas encuentran la forma de hacerlo. Los bloques y tareas tienen campos y etiquetas, para declarar: el wrapper y tipo de recurso en su plataforma; el nombre del recurso; y sus propiedades. También tienen un tipo de acción dedicada a recuperar información de la plataforma, y a guardar variables con los resultados de sus operaciones, ``output'' en Terraform; ``register'' y ``debug'' en Ansible.
             \linebreak
             
-            Los wrappers de ambos antes o después se han quedado cortos en cosas poco importantes, Terraform no es capaz de recuperar el \textit{connection string} de CosmosDB, y Ansible no devuelve las llaves de Redis sueltas. En las dos he podido solucionarlo, creando el string juntando las llaves y dirección en Terraform, y cortando el de Redis, lo único que me devolvía Ansible, para extraer las llaves.
+            Los wrappers de ambos antes o después se han quedado cortos en cosas poco importantes, Terraform no es capaz de recuperar el \textit{connection string} de CosmosDB, y Ansible no devuelve las llaves de Redis sueltas. En las dos he podido solucionarlo, creando el string juntando las llaves y dirección en Terraform, y cortando el de Redis, que era lo único que me devolvía Ansible, para extraer las llaves.
             \linebreak
             
 			\item Ambos soportan reutilización de código entre proyectos, aun si no lo he demostrado en mi uso. Terraform usa módulos, que incluso se ofrecen ya hechos en su registro, y Ansible soporta plantillas de roles con Jinja, con parámetros que se resuelven en tiempo de ejecución.
@@ -1540,15 +1542,15 @@ Las similitudes principales que han quedado evidentes durante este proyecto y ex
             \item Ninguna de las herramientas es propietaria, aun si la filosofía detrás de sus licencias es muy diferente (código abierto frente a código libre). En las dos, cualquiera puede inspeccionarlo y contribuir. También llevan esta mecánica a sus plug-ins. 
             \linebreak
             
-            Aunque Hashicorp ha desarrollado la mayoría de los proveedores de Terraform (incluido el de Azure), su registro es hogar a proveedores de terceros. Los desarrolladores de Ansible han descargado casi la totalidad de este trabajo a las empresas interesadas, incluida la colección de Azure producida por Microsoft directamente.
+            Aunque Hashicorp ha desarrollado la mayoría de los proveedores de Terraform (incluido el de Azure), su registro es hogar a proveedores de terceros. Los desarrolladores de Ansible han descargado casi la totalidad de este trabajo a las empresas interesadas, incluida la colección de Azure, producida por Microsoft directamente.
             \linebreak
 		\end{itemize}
 
-Por el contrario, son resultado de planteamientos e historias de desarrollo muy distintos. Terraform es una herramienta para aprovisionar recursos cloud. Sólo hace eso, pero sobresale en ello. Ansible nació como una herramienta de automatización, y su extensibilidad y popularidad resultó en su adaptación a herramienta para IaC. Se repercute en diferencias marcadas:
+Por el contrario, son resultado de planteamientos e historias de desarrollo muy distintos. Terraform es una herramienta para aprovisionar recursos cloud. Sólo hace eso, pero sobresale en ello. Ansible nació como una herramienta de automatización, su extensibilidad y popularidad resultaron en su adaptación a herramienta para IaC. Se repercute en diferencias marcadas:
 \skip
         \begin{itemize}
 			\itemsep0em 
-			\item Los proyectos de Terraform son un todo. Son evaluados, tratados y usados como tal. Su contrario trata cada acción como una entidad separada, que se puede agrupar con otras en una estructura que puede crecer para realizar más que un solo despliegue en cada playbook. Mi solución ha sido simular polyrepos, repositorios pequeños y separados para cada proyecto, con carpetas desperdigadas, mientras que Ansible, salvo porque he creado varios playbooks, solo tendría una.
+			\item Los proyectos de Terraform son un todo. Son evaluados, tratados y usados como tal. Su contrario trata cada acción como una entidad separada, que se puede agrupar con otras en una estructura que puede crecer para realizar más que un solo despliegue en cada playbook. Mi solución en el primero ha sido simular polyrepos, repositorios pequeños y separados para cada proyecto, con carpetas desperdigadas, mientras que Ansible, salvo porque he creado varios playbooks, solo tendría una.
             \linebreak
             
             \item Ansible es un orquestador de tareas, permite organizarlas y ejecutarlas de muchas maneras, según la necesidad. Pero no tiene una perspectiva global de lo que está haciendo. Terraform construye su grafo de dependencias, y relaciona los componentes, creando los recursos según las dependencias que descubra, sin que el orden de sus declaraciones importe. Por tanto, Ansible no es realmente declarativo, no a nivel de rol ni de playbook, solo realmente al de tarea.
@@ -1567,7 +1569,7 @@ He contabilizado varias métricas sobre los proyectos y playbooks para añadir c
 Primero, he medido los tiempos de ejecución de cada etapa: cada proyecto de Terraform, y construcción de imágenes; y roles de los playbooks de Ansible; por separado. Las cifras que ofrezco son las medias de cinco ejecuciones de cada uno. Con tan pocas medidas no son necesariamente representativas, y había valores anómalos que no he rechazado. 
 \linebreak
 
-No he realizado una muestra más extensa por el coste y tiempo necesario. Tampoco he calculado estadísticos detallados porque considero que superan el ámbito de la memoria.
+No he realizado un muestreo más extenso por el coste y tiempo necesarios. Tampoco he calculado estadísticos detallados porque considero que superan el ámbito de la memoria.
 \linebreak
 
 Como se puede ver en la siguiente figura, el playbook de Ansible con tareas asíncronas consigue los mejores tiempos. Terraform, sin el esfuerzo añadido que requiere el paralelismo en la otra, le sigue muy cerca. Varios minutos por detrás está, como es de esperar, la solución sin concurrencia. Este es el primer playbook que hice, completamente secuencial. Aunque no lo he añadido en el gráfico, también he medido el play con roles concurrentes, que tiene tiempos mucho peores por las razones que expliqué en \textit{Ansible § Implementación paralelizada}.
@@ -1602,6 +1604,71 @@ Después, he medido las líneas de código (excluyendo vacías y comentadas) y c
     \end{figure} 
 
 
+
+
+
+\subsection{Relevancia}
+Apelar al numero de usuarios para dictar la superioridad de una herramienta sobre la otra sería construir un argumento falaz. Sin embargo, si que es un punto de contexto relevante, ya que una herramienta más popular probablemente tenga más documentación y artículos, que ayudarán en el desarrollo. En 2022, Terraform y Ansible fueron las sexta y séptima tecnologías mas populares en Stack Overflow, de 46.432 respuestas de desarrolladores profesionales (\cite{stack_overflow_pop}), ocupando un 12,3\% y 9,64\% respectivamente.
+\linebreak
+
+    \begin{figure}[htb]
+        \centering
+        \resizebox{.7\linewidth}{!}{%
+            \includegraphics{../capturas/stack_overflow.png}
+        }
+        \caption{Tecnologías más populares entre profesionales (Stack Overflow, 2022)}
+    \end{figure}
+
+Para añadir contexto a estas posiciones, también incluyo las tenencias de busquedas de ambas (\cite{google_pop}) en los últimos cinco años. En el último, Ansible parece haber estagnado, ligeramente a nivel nacional, y de manera marcada globalmente. 
+\linebreak
+    \begin{figure}[htb]
+        \centering
+        \begin{subfigure}{0.95\textwidth}
+            \resizebox{\linewidth}{!}{%
+                \includegraphics{../charts/trends-spanita.pdf}
+            }
+            \caption{Popularidad en España}
+        \end{subfigure}
+        \linebreak
+     \end{figure} 
+     
+     \begin{figure}[htb]
+        \ContinuedFloat
+        \centering
+        \begin{subfigure}{0.95\textwidth}
+            \resizebox{\linewidth}{!}{%
+                \includegraphics{../charts/trends-world.pdf}
+            }
+            \caption{Popularidad mundial}
+        \end{subfigure}
+        \caption{Tendencias de busqueda (Google Trends, 2023)}
+    \end{figure} 
+
+Finalmente, gracias a la transparencia de los desarrollos de las dos, podemos ver las frecuencias de commits a sus repositorios (\cite{git_tf}, \cite{git_ans}). Ambas han superado su fase de desarrollo inicial, y llevan años con un numero de contribuciones estabilizado.
+\linebreak
+
+    \begin{figure}[htb]
+        \centering
+        \begin{subfigure}{0.85\textwidth}
+            \resizebox{\linewidth}{!}{%
+                \includegraphics{../capturas/github_commits_terraform.png}
+            }
+            \caption{Commits a \texttt{hashicorp/terraform}}
+        \end{subfigure}
+        \linebreak
+        \skip
+        
+        \begin{subfigure}{0.85\textwidth}
+            \resizebox{\linewidth}{!}{%
+                \includegraphics{../capturas/github_commits_ansible.png}
+            }
+            \caption{Commits a \texttt{ansible/ansible}}
+        \end{subfigure}
+        \caption{Frecuencia de contribuciones a los proyectos (GitHub, 2023)}
+        \vspace{-3cm}
+    \end{figure} 
+    
+    
 \clearpage
 \subsection{Integración de una en la otra}
 Estas herramientas no son mutuamente excluyentes. Como último ejercicio, me propuse implementar un playbook en el que se use el módulo de Terraform (\cite{terraform_ansible}) y mis proyectos de este para hacer el aprovisionado. Me apoyé sobre el siguiente artículo de Medium para aprender a usarlo y sus detalles: \cite{terraform_ansible_medium}. La implementación del playbook \texttt{terraform\_ansible} es muy sencilla, ya que solo se necesita una tarea para aplicar un proyecto, y el rol que la contiene pudiéndose reusar para los tres que tengo en Terraform.
@@ -1636,21 +1703,66 @@ También hay módulos de Terraform para trabajar con Ansible (como \cite{terrafo
 
 
 
+
+
+
 \clearpage
 \section{Conclusión}
-Terraform es una mejor herramienta de aprovisionamiento. Es más fácil de hacer funcionar, aprender, rápido desplegando y de desarrollar para las funcionalidades que proporciona. Ansible no tiene, de serie, los lujos que ofrece su alternativa, e implementarlos incurre un coste. Para que un playbook compita con todo lo que trae Terraform, tendrá que ser más verboso y complicado de leer. Su alternativa envejecerá mejor, y podrá ser entendido por gente con menos experiencia.
+Terraform es una mejor herramienta de aprovisionamiento. Es más fácil de hacer funcionar, aprender, rápido desplegando y de desarrollar para las funcionalidades que proporciona. Ansible no tiene, de serie, los lujos que ofrece su alternativa, e implementarlos incurre un coste. Para que un playbook compita con todo lo que trae Terraform, tendrá que ser más verboso y complicado de leer.
 \linebreak
 
-Si en la empresa me pidiesen elegir una herramienta, recomendaría Ansible. Por supuesto, dependería del uso particular, y ofrecería contexto que he aprendido durante esta práctica. Sólo he sido testigo de Ansible usado en producción, y los playbooks que he visto podrían replicarse casi por completo en Terraform. Pero no en su totalidad. Esta pequeña cantidad de pasos que no se pueden conseguir sin integrarlo en otro sistema, al contrario que Ansible, son lo que le da al último su ventaja. Terraform tendrá que ser fuertemente acoplado a un pipeline o script en el que solo sea un paso, mientras que un playbook es el propio pipeline, englobando todos los pasos necesarios. Esto lo hace más portátil y agnóstico a la plataforma de CI/CD.
+Sin embargo, si se me pidiese recomendar una, no necesariamente excluiría a Ansible. Para proyectos multietapa, fuertemente secuenciales, los beneficios de Terraform se pierden. Si un proyecto necesita pasos adicionales a la contratación de recursos, solo Ansible podrá abordarlos sin necesitar apoyarse en herramientas externas. En estos casos, para automatizar los despliegues con pipelines, Terraform estará fuertemente acoplado a la plataforma, siendo un paso en ella, mientras que su contrincante \underline{es} el pipeline, y se puede mover fácilmente a otra solución de CI/CD.
 \linebreak
 
-En la mayoría de casos, el tiempo que ahorra paralelizar un playbook no justifica hacerlo. Igualmente, los mejores tiempos de Terraform no triunfan sobre Ansible de la manera que sus módulos adicionales y funcionalidades (fuera del aprovisionamiento) añadidas lo hacen a la inversa. Cuanto mayor sea el proyecto, más se beneficiará de la abstracción, rendimiento y utilidades que da Terraform. Pero también se vuelve más probable que tenga necesidades que Terraform solo no es capaz de suplir. 
+El bagaje técnico de su origen sobrecomplica Ansible, pero puede conseguir lo mismo que Terraform, en el mismo tiempo, y ambas herramientas se pueden aprender en una semana. En una organización grande, un equipo dedicado podría encargarse de la complejidad que Ansible necesita para conseguir el rendimiento de Terraform, además implementando el paralelismo solo donde el beneficio lo justifique. La misma flexibilidad que permite a Ansible paralelizar donde sea necesario, e integrarse con otras herramientas, le da la opción de incorporar un proyecto de Terraform si la tarea lo supera, imposible a la inversa.
 \linebreak
 
-El bagaje del su origen sobrecomplica Ansible, pero ambas herramientas se pueden aprender en una semana. Conseguir el código básico para la infraestructura es más rápido en Ansible, y donde sea necesario, se puede profundizar para implementar las funcionalidades. Si aún así no es capaz de satisfacer el proyecto, se puede integrar Terraform, y conseguir todos sus beneficios, dentro de Ansible, mientras que no se podría de haber elegido Terraform primero.
+Cuanto mayor sea la infraestructura por aprovisionar, más evidentes serán los beneficios de Terraform, que resolverá las dependencias y optimizará el despliegue automáticamente. Estos son beneficios que, a través de muchos proyectos, y muchos despliegues de cada uno, son favorables a Terraform. Aún así, con el tamaño crecerá la probabilidad de que haya etapas del despliegue que no sea capaz de asumir por su cuenta.
 \linebreak
 
-En resumen, la flexibilidad de Ansible lo hace una mejor herramienta para navegar los requisitos de despliegue de una aplicación, sus necesidades y su infraestructura, mientras que Terraform es preferible para proyectos que no escapen de su ámbito.
+En resumen, la flexibilidad de Ansible lo hace una mejor herramienta para navegar los requisitos de despliegue de una aplicación, sus necesidades y su infraestructura, mientras que Terraform es preferible para proyectos que no escapen de su ámbito, el aprovisionamiento.
+\linebreak
+
+
+
+
+\clearpage
+\section{Lecciones aprendidas y líneas de continuación}
+Esta práctica ha sido el proyecto mas grande que he realizado en la carrera, hasta ahora. Como tal, ha sufrido problemas que ejercicios más pequeños y guiados no ofrecen la oportunidad de observar. 
+
+    \begin{itemize}
+			\itemsep0em 
+			\item \textbf{Scope Creep} es más que un riesgo teórico que estudiar en \textit{Gestión de proyectos tecnológicos}, es un problema muy real que se produce naturalmente, y tiene que ser controlado deliberadamente. Un mal estudio de los requisitos de esta memoria me hizo sobreestimar el esfuerzo que se pedía, y añadir funcionalidades para justificar el desarrollo que he realizado. En mi primer planteamiento del problema, no incluía el uso de Redis ni almacenamiento de imágenes, mucho menos las operaciones con ellas desde el cliente. Esta última ha consumido un tercio del tiempo total de la práctica. Gracias a este proyecto, tengo un poco más de experiencia, que usaré para hacer un mejor estudio y sobre todo, estimación de tiempos en los siguientes que encuentre.
+            \linebreak
+   
+            \item \textbf{Riesgo Técnico} es el nombre con el que describo las incógnitas que causa proponer un proyecto con herramientas que no conoces. Estas lagunas sin conocer pueden resultar fáciles de abordar, como Redis que fue trivial de implementar, o prohibitivas, como el uso de imágenes. Cuando se empiezan a acumular las complicaciones, se vuelve más probable que el proyecto acabe en fracaso. En diciembre, este era un prospecto muy real para mí, la integración de los componentes estaba siendo costosa, y no confiaba en que fuese a poder entregar un solo playbook de Ansible.
+            \linebreak
+            
+            \item \textbf{DevOps} no es solo una salida profesional interesante para mí, suple una necesidad muy real de proyectos grandes. Haber afrontado este proyecto de manera iterativa, con las fases de desarrollo que describí en la primera sección, y no desplegar en Azure hasta diciembre ha añadido mucho trabajo innecesario. De haber automatizado los despliegues, y trabajado con Azure desde el principio, el tiempo de integración de las piezas, que ha sido el segundo más prolongado, podría haber sido muy reducido. Esta práctica se beneficiaría, para completar su propósito como maqueta de un sistema real, de un ciclo de vida. Esta sería una de las principales adiciones que añadir a futuro, despliegues automatizados con pipelines de la infraestructura e imágenes.
+            \linebreak        
+            
+            \item \textbf{Cifrar} el tráfico tiene que contemplarse desde el principio, y no es fácil. Aunque no era parte de mis objetivos, el tráfico cifrado del cliente al backend me ha superado. Son las únicas comunicaciones que no están hasta estándar, y lo primero que mejoraría en una revisión.
+		\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1662,9 +1774,9 @@ En resumen, la flexibilidad de Ansible lo hace una mejor herramienta para navega
 
 \clearpage
 \appendix
-\section{Generación grafico del grafo de dependencias}
+\section{Generación gráfico del grafo de dependencias}
 \label{anexo:grafico}
-En su documentación, \cite{hashicorp_graph}, explica como imprimir el grafo de dependencias como texto, y usar \texttt{dot} para convertirlo a un gráfico. Como el diagrama que sale por defecto es muy plano, ya que el objetivo de Terraform es encontrar las dependencias y maximizar las operaciones que pueda paralelizar, el grafo es muy plano. A su comando, que solo usa \texttt{dot}, le he añadido otra herramienta, \texttt{unflatten}, que intenta hacer los grafos más verticales. Las opciones \texttt{-l} y \texttt{-f} del comando \texttt{unflatten} indican la cantidad de niveles o filas, y la reorganización de las flechas respectivamente. La opción \texttt{-Tpdf} de \texttt{dot} es el formato de salida, PDF.
+En su documentación, \cite{hashicorp_graph}, explica como imprimir el grafo de dependencias como texto, y usar \texttt{dot} para convertirlo a un gráfico. Como el diagrama que sale por defecto es muy plano, ya que el objetivo de Terraform es encontrar las dependencias y maximizar las operaciones que pueda paralelizar, el grafo es muy plano. A su comando, que solo usa \texttt{dot}, le he añadido otra herramienta, \texttt{unflatten}, que intenta hacer los grafos más verticales. Las opciones ``\texttt{-l}'' y ``\texttt{-f}'' del comando \texttt{unflatten} indican la cantidad de niveles o filas, y la reorganización de las flechas respectivamente. La opción ``\texttt{-Tpdf}'' de \texttt{dot} es el formato de salida, PDF.
 \linebreak
 
     \begin{figure}[htb]
