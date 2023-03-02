@@ -18,21 +18,19 @@ This repo contains a fullstack webapp and the Ansible and Terraform code to depl
 
 <br>
 
-<center>
-  <img src="./documentacion/drawio/eng/general2.svg">
-
+<p align="center">
+  <img src="./documentacion/drawio/eng/general2.svg"><br>
   <em>General overview</em>
-</center>
+</p>
 
 Users can view all posts, register, log in and out, and make and delete their own posts. These contain their author's name, a comment and an image. Only the author of a post can delete it, this is checked both in the client and API.
 
 <br>
 
-<center>
-  <img src="./documentacion/capturas/output.gif">
-
+<p align="center">
+  <img src="./documentacion/capturas/output.gif"><br>
   <em>Project demo</em>
-</center>
+</p>
 
 <br>
 
@@ -115,11 +113,10 @@ While I originally started the webapp's development locally, with Docker Compose
 
 <br>
 
-<center>
-  <img src="./documentacion/drawio/eng/general-infra.svg">
-
+<p align="center">
+  <img src="./documentacion/drawio/eng/general-infra.svg"><br>
   <em>Infrastructure requirements</em>
-</center>
+</p>
 
 <br><br></br>
 
@@ -137,11 +134,10 @@ Partiendo en cada caso de la raiz del proyecto:
 
 <br>
 
-<center>
-  <img src="./documentacion/drawio/eng/terraform-etapas.svg">
-
-  <em>Infrastructure requirements</em>
-</center>
+<p align="center">
+  <img src="./documentacion/drawio/eng/terraform-etapas.svg"><br>
+  <em>Terraform deployment process</em>
+</p>
 
 <br>
 
@@ -210,11 +206,10 @@ Se pueden elegir que roles ejecutar con las opciones `--tags "A,B"` y `--skip-ta
 
 <br>
 
-<center>
-  <img src="./documentacion/drawio/eng/parallel-ansible-etapas.svg">
-
-  <em>Infrastructure requirements</em>
-</center>
+<p align="center">
+  <img src="./documentacion/drawio/eng/parallel-ansible-etapas.svg"><br>
+  <em>Ansible deployment process</em>
+</p>
 
 <br>
 
