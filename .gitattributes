@@ -1,3 +1,6 @@
 *.yml linguist-detectable
 # *.tex linguist-vendored
 documentacion/latex/memoria.tex linguist-vendored
+documentacion/latex/presentacion.tex linguist-vendored
+ansible/ansible linguist-vendored
+ansible/terraform_ansible linguist-vendored
