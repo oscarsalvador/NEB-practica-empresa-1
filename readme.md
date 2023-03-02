@@ -85,7 +85,7 @@ With these values and the requirements satisfied, the system can be deployed. Af
 
 | Directory                         | Description                                                                     |
 | --------------------------------- | ------------------------------------------------------------------------------- |
-| Root                              |                                                                                 | 
+| Root <img width=200/>             |                                                                                 | 
 | `├─` ansible                      | Contains all playbooks                                                          | 
 | `│` &emsp; `├─` ansible           | My first playbook, the bare minimum to provision the project's needs in Azure   |
 | `│` &emsp; `├─` parallel_ansible  | An improved playbook, using asynchronous tasks and roles to get a big speed up  |
