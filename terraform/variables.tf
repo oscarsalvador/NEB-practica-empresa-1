@@ -3,9 +3,13 @@ variable "location" {
 }
 variable "subscription_id" {
   description = "Subscription under which resources will be billed"
+  sensitive = true
+
 }
 variable "tenant_id" {
   description = "Account tenant"
+  sensitive = true
+
 }
 # variable "whitelisted_ip" {
 #   description = "IP(s) allowed to access services"

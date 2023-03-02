@@ -4,10 +4,10 @@
 # systemctl start docker
 
 if [ $# -ne 1 ]; then
-  echo "Use: $ terraform-deploy.sh <>"
-  return
+  echo "Use: $ terraform-deploy.sh <ACR_NAME>"
+  exit
 else 
-  $ACR_NAME = $1
+  ACR_NAME=$1
 fi;
 
 # cd terraform
@@ -39,19 +39,19 @@ fi;
 # There are naming conventions for variables in shell scripts. By convention, Unix shell variables will have their names in uppercase
 # pasar los valores por args al lanzar el script, ponerlo en el readme con <param> 
 
-function tf_deploy($DIR){
-  cd $DIR; pwd
+function tf_deploy () {
+  cd $1; pwd
   terraform init
-  terraform -out myplan.out -var-file variables.tfvars
+  terraform plan -out myplan.out -var-file variables.tfvars
   terraform apply myplan.out
   cd -
 }
 
-function docker_push($DIR, $PURPOSE){
-  cd $DIR; pwd
-  docker build -t "fullstackpoc-$PURPOSE:1.0.0" .
-  docker tag "fullstackpoc-$PURPOSE:1.0.0" "$ACR_NAME.azurecr.io/fullstackpoc-$PURPOSE:latest"
-  docker push "$ACR_NAME.azurecr.io/fullstackpoc-$PURPOSE:latest"
+function docker_push (){
+  cd $1; pwd
+  docker build -t "fullstackpoc-$2:1.0.0" .
+  docker tag "fullstackpoc-$2:1.0.0" "$ACR_NAME.azurecr.io/fullstackpoc-$2:latest"
+  docker push "$ACR_NAME.azurecr.io/fullstackpoc-$2:latest"
   cd -
 }
 
