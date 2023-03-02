@@ -40,7 +40,9 @@ Users can view all posts, register, log in and out, and make and delete their ow
   - [How to deploy (quick)](https://github.com/oscarsalvador/NEB-practica-empresa-1#How-to-deploy)
 - [Repo structure](https://github.com/oscarsalvador/NEB-practica-empresa-1#Repo-structure)
 - [Infrastructure](https://github.com/oscarsalvador/NEB-practica-empresa-1#Infrastructure)
-
+  - [Terraform deployment](https://github.com/oscarsalvador/NEB-practica-empresa-1#Terraform-deployment)
+  - [Ansible deployment](https://github.com/oscarsalvador/NEB-practica-empresa-1#Ansible-deployment)
+  
 <br>
 
 
@@ -120,17 +122,20 @@ While I originally started the webapp's development locally, with Docker Compose
 
 <br><br></br>
 
+For both of the following deployments, having logged into Azure is a prerequisite.
+```
+`az login`
+```
 
-# Despliegue con Terraform
-Terraform uses `variables.tfvars` files to load the values for variables used within it's runtime. In this repo I have only uploaded `examplevariables.tfvars` files. These contain the names of the variables, but require the user to populate them. There is one in each terraform folder. The first time around Terraform will also need the user to set up each project, running the following command on all project folders (`backend/terraform`, `frontend/terraform`, and `terraform`).
+<br>
 
-> terraform init
+## Terraform deployment
+Terraform uses `variables.tfvars` files to load variables in its hierarchy of values during it's runtime. In this repo I have only uploaded `examplevariables.tfvars` files. These contain the names of the variables, but require the user to populate them and rename them to `variables.tfvars`. There's one in each terraform folder. These are:
+  - `terraform` for the base infrastructure, common to both backend and frontend (resource group, vnet, registry, databases, and storage container)
+  - `backend/terraform` for the backend Azure Container Image
+  - `frontend/terraform` for the frontend ACI
 
-The last preparatory step is to log into Azure. From there on, the script **terraform-deploy.sh** contains all of the following steps. The scrip itself must also be updated, as I have removed the Azure Container Registry names I used, and replaced them with "ACR_NAME".
-
-> az login
-
-Partiendo en cada caso de la raiz del proyecto:
+They need to be deployed in that order, as the frontend requires the IP address (dynamically asigned) of the backend, and this one needs the addresses (some are FQDNs, others IPs) of the other resources. Both also need to have their images available, and so, built and pushed to the ACR. 
 
 <br>
 
@@ -141,68 +146,73 @@ Partiendo en cada caso de la raiz del proyecto:
 
 <br>
 
-## Despliegue de la infraestructura principal
-> cd terraform 
-
-Cambiar el nombre del archivo `examplevariables.tfvars` a `variables.tfvars` y rellenarlo
-
-> terraform -out miplan.out -var-file variables.tfvars
-
-> terraform apply miplan.out
+The following steps can be run with my bash script `terraform-deploy.sh`, but which might be less legible to those unfamiliar with bash, as it uses functions and parameters. The script needs to be fed the name of the ACR, and will ask you to include it.
+```
+terraform/terraform-deploy.sh <ACR-NAME>
+```
 
 
-## Comun para los dos contenedores
-> az acr login -n `<acr-name>`
+### Base infrastructure
+```
+cd terraform 
+terraform init
+terraform -out myplan.out -var-file variables.tfvars
+terraform apply myplan.out
+```
 
-### Desplegar el backend
-> cd backend
+## Common to both containers
+```
+az acr login -n `<ACR-NAME>`
+```
 
-> docker build -t fullstackpoc-back:1.0.0 .
 
-> docker tag fullstackpoc-back:1.0.0 `<acr-name>`.azurecr.io/fullstackpoc-back:latest
+### Backend
+```
+cd backend
+docker build -t fullstackpoc-back:1.0.0 .
+docker tag fullstackpoc-back:1.0.0 <ACR-NAME>.azurecr.io/fullstackpoc-back:latest
+docker push <ACR-NAME>.azurecr.io/fullstackpoc-back:latest
 
-> docker push `<acr-name>`.azurecr.io/fullstackpoc-back:latest
-
-> cd terraform
-
-Cambiar el nombre del archivo `examplevariables.tfvars` a `variables.tfvars` y rellenarlo. 
+cd terraform
+terraform -out myplan.out -var-file variables.tfvars
+terraform apply myplan.out
+```
 
 <!-- La variable `whitelisted_ip` deberia tener las IPs de todos los que tengan que acceder por el frontend. `curl ifconfig.me` -->
 
-> terraform -out miplan.out -var-file variables.tfvars
 
-> terraform apply miplan.out
+### Frontend
+```
+cd frontend
+docker build -t fullstackpoc-front:1.0.0 .
+docker tag fullstackpoc-front:1.0.0 <ACR-NAME>.azurecr.io/fullstackpoc-front:latest
+docker push <ACR-NAME>.azurecr.io/fullstackpoc-front:latest
+cd terraform
 
-### Desplegar el frontend
-> cd frontend
-
-> docker build -t fullstackpoc-front:1.0.0 .
-
-> docker tag fullstackpoc-front:1.0.0 `<acr-name>`.azurecr.io/fullstackpoc-front:latest
-
-> docker push `<acr-name>`.azurecr.io/fullstackpoc-front:latest
-
-> cd terraform
-
-Cambiar el nombre del archivo `examplevariables.tfvars` a `variables.tfvars` y rellenarlo
-
-> terraform -out miplan.out -var-file variables.tfvars
-
-> terraform apply miplan.out
-
+terraform -out myplan.out -var-file variables.tfvars
+terraform apply myplan.out
+```
 
 <br><br></br>
 
-# Despliegue con Ansible
-Cambiar el nombre de los archivos `examplemain.yml` a `main.yml` en la carpeta `/vars` de cada rol en el playbook que se quiera ejecutar y rellenarlo con los valores adecuados. 
+## Ansible deployment
+Fill and rename the `examplemain.yml` files with your desired variable values. For the `parallel_ansible` playbook, these are:
+- `ansible/parallel_ansible/backend/vars/examplemain.yml`
+- `ansible/parallel_ansible/destroy/vars/examplemain.yml` (destroys all resources in the group)
+- `ansible/parallel_ansible/docker/vars/examplemain.yml` (builds and pushes images)
+- `ansible/parallel_ansible/frontend/vars/examplemain.yml`
+- `ansible/parallel_ansible/infra-base/vars/examplemain.yml` (shared infra)
+This playbook is the fastest of the three, as it uses asynchronous tasks reducing the deployment time through concurrency. It has two "plays", `site.yml` and `parallel-site.yml` the second uses the *free* strategy to parallelize the executions of the docker role for both frontend and backend. This however makes it slower, as each role cannot benefit from a previous one making it's layers available, in either the build's pull or the push to the ACR.
 
-> az login
-
-> ansible-playbook site.yml
-
-En el playbook `parallel_ansible` hay dos playbooks, `site.yml` y `parallel-site.yml`, el segundo utiliza la estrategia *free* para los roles de docker. 
-
-Se pueden elegir que roles ejecutar con las opciones `--tags "A,B"` y `--skip-tags "C,D"` detrás del comando de ansible-playbook. En los archivos `site.yml` se pueden ver las etiquetas que he asignado a cada rol.
+After having logged into Azure with:
+```
+az login
+```
+The playbook can be used from the `ansible/parallel_ansible` folder with:
+```
+ansible-playbook site.yml
+```
+Aditionally, roles can be run separatelly or in smaller groups with `--tags "A,B"` and `--skip-tags "C,D"` in the previous command. In the `site.yml` files, the tags I've given to each role can be checked. Ansible launches roles, and the tasks within them, secuentially. In the following diagram the numbers represent roles, and the decimals resources which can be provisioned at the same time. The dotted red lines represent depencencies, values that are retrieved from Azure and needed for their respective role. Unlike Ansible, Terraform has a *dependency graph* which it generates and uses automatically, offering paralellization out-of-the-box.
 
 <br>
 
@@ -213,4 +223,5 @@ Se pueden elegir que roles ejecutar con las opciones `--tags "A,B"` y `--skip-ta
 
 <br>
 
-## Deployment with the `ansible` and `terraform_ansible` playbooks
+### Deployment with the `ansible` and `terraform_ansible` playbooks
+The first one, `ansible` was my first, and has no optimizations. I have not removed it because I use it in my in-depth comparison of the tools. The second one I made out of curiosity, and merely lauches the Terraform projects from a role that uses the Terraform modules in Ansible's community collection.
