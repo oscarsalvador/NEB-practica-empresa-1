@@ -12,6 +12,8 @@ frontend/miimg.png
 **.lock.hcl
 *.tfstate
 *.tfstate.*
+documentacion/drawio/.xdp*
+
 
 ansible/resources-azure
 ansible/pruebas
