@@ -17,7 +17,7 @@ variable "resource_group_name" {
 
 
 # acr 
-variable "acr_user" {
+variable "acr_name" {
   description = "Username to access registry"
 }
 
@@ -33,13 +33,13 @@ variable "frontend_image" {
 }
 
 # backend
-variable "backend_address" {
-  description = "Where to connect to access the api"
-}
+# variable "backend_address" {
+#   description = "Where to connect to access the api"
+# }
 variable "backend_container_group_name" {
   description = "Name to search for to find the backend container group"
 }
 
-variable "cors_origin_to_allow"{
-  description = "IP from which cors is allowed"
-}
+# variable "cors_origin_to_allow"{
+#   description = "IP from which cors is allowed"
+# }
